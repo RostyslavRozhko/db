@@ -1,0 +1,70 @@
+﻿<Window x:Class="DBProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DBProject"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="500">
+    <Grid Name="grid">
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="База даних">
+                    <MenuItem Name="ImportButton" Header="Імпортувати з Excel" />
+                    <MenuItem Name="ClearButton" Header="Очистити" MouseDown="ClearButton_MouseDown" />
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <TabControl Margin="0,20,0,0">
+            <TabItem Header="Методист">
+                <StackPanel>
+                    <CheckBox Name="mAllRooms" IsThreeState="False" IsChecked="True" Content="Всі аудиторії" Margin="5" />
+
+                    <CheckBox Name="mCompRooms" IsThreeState="False" IsChecked="False" Content="Комп'ютерні аудиторії" Margin="5" />
+
+                    <Label Width="200" HorizontalAlignment="Left" Content="Аудиторії корпусу"/>
+                    <TextBox Name="mBuilding" Width="200" HorizontalAlignment="Left" />
+
+                    <Label Width="200" HorizontalAlignment="Left" Content="Номер аудиторії"/>
+                    <TextBox Name="mRoom" Width="200" HorizontalAlignment="Left" />
+
+                    <CheckBox Name="mAllWeeks" IsThreeState="False" IsChecked="True" Content="Всі тижні" Margin="5" />
+
+                    <Label Width="200" HorizontalAlignment="Left" Content="Номер тижня"/>
+                    <TextBox Name="mWeek" Width="200" HorizontalAlignment="Left" />
+
+                    <Button Name="mSubmit" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30">Застосувати</Button>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Викладач">
+                <StackPanel>
+                    <Label Width="200" HorizontalAlignment="Left" Content="Номер аудиторії"/>
+                    <TextBox Name="tRoom" Width="200" HorizontalAlignment="Left" />
+
+                    <CheckBox Name="tAllWeeks" IsThreeState="False" IsChecked="True" Content="Всі тижні" Margin="5" />
+
+                    <Label Width="200" HorizontalAlignment="Left" Content="Номер тижня"/>
+                    <TextBox Name="tWeek" Width="200" HorizontalAlignment="Left" />
+
+                    <Button Name="tSubmit" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30">Застосувати</Button>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Студент">
+                <StackPanel>
+                    <Label Width="200" HorizontalAlignment="Left" Content="Спеціальність"/>
+                    <TextBox Name="sSpecial" Width="200" HorizontalAlignment="Left" />
+
+                    <Label Width="200" HorizontalAlignment="Left" Content="Курс"/>
+                    <TextBox Name="sYear" Width="200" HorizontalAlignment="Left" />
+
+                    <CheckBox Name="sAllWeeks" IsThreeState="False" IsChecked="True" Content="Всі тижні" Margin="5" />
+
+                    <Label Width="200" HorizontalAlignment="Left" Content="Номер тижня"/>
+                    <TextBox Name="sWeek" Width="200" HorizontalAlignment="Left" />
+
+                    <Button Name="sSubmit" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30">Застосувати</Button>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

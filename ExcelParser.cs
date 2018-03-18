@@ -68,6 +68,7 @@ namespace DBProject
                     {
                         teacherId = teacher.Id.ToString();
                     }
+
                     if (Values.GetValue(1, 5).ToString() == "лекція")
                     {
                         groupId = "0";

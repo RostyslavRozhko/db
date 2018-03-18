@@ -87,7 +87,7 @@ namespace DBProject
 
                 String sql = "INSERT INTO Розклад (Спеціальність, Рік_навчання, Номер_запису, День, Пара_номер, Аудиторія, Предмет, Група, Викладач) " +
                     "VALUES ('" + speciality + "', " + year + ", " + record.ToString() + ")";
-
+                Console.WriteLine(sql);
                 using (OleDbConnection Connection = new OleDbConnection())
                 {
 

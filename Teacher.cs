@@ -20,9 +20,9 @@ namespace DBProject
             this.Id = Counter++;
             this.Name = Name;
             string[] output = Name.Split(' ');
-            this.Position = output[0];
-            this.Initials = output[1];
-            this.Lastname = output[2];
+            this.Position = "lol";
+            this.Initials = "kek";
+            this.Lastname = Name;
 
         }
 

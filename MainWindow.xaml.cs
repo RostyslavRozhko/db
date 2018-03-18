@@ -22,14 +22,19 @@ namespace DBProject
     {
         public MainWindow()
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
             InitializeComponent();
-            String path = @"D:\db\2017_2018__Spring\Інформатика  -3 весна 17-18н.р.  Microsoft Office Excel.xlsx";
+            String path = "C:\\Work\\c#\\db\\bin\\Debug\\Інформатика_3_весна_17_18н_р_Microsoft.xlsx";
             ExcelParser parser = new ExcelParser(path);
 
-            String accessPath = "D:\\GIT\\dbproject\\db.accdb";
+            String accessPath = @"C:\Work\c#\db\bin\Debug\db.accdb";
             Access access = new Access(accessPath);
-            Console.WriteLine("suka");
+
             access.deleteTables();
+            access.insertTeachers(parser.getTeachers());
+            access.insertWeeks(parser.getWeeks());
+            access.insertSchedule(parser.getYear(), parser.getSpeciality(), parser.getEntities());
         }
 
         private void MenuItem_MouseDown(object sender, MouseButtonEventArgs e)

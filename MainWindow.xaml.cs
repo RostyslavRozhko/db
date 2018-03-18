@@ -23,7 +23,7 @@ namespace DBProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static String accessPath = "D:\\GIT\\dbproject\\db.accdb";
+        private static String accessPath = @"C:\Work\c#\db\bin\Debug\db.accdb";
         private static Access access = new Access(accessPath);
 
         public MainWindow()
@@ -51,15 +51,11 @@ namespace DBProject
             {
                 try
                 {
-                    foreach (String file in openFileDialog1.FileNames)
-                    {
-                        MessageBox.Show(file);
-                        ExcelParser parser = new ExcelParser(file);
+                    ExcelParser parser = new ExcelParser(openFileDialog1.FileNames);
 
-                        access.insertTeachers(parser.getTeachers());
-                        access.insertWeeks(parser.getWeeks());
-                        access.insertSchedule(parser.getYear(), parser.getSpeciality(), parser.getEntities());
-                    }
+                    access.insertTeachers(parser.getTeachers());
+                    access.insertWeeks(parser.getWeeks());
+                    access.insertSchedule(parser.getEntities());
                     MessageBox.Show("Імпортовано");
                     return true;
                 }

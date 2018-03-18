@@ -78,7 +78,7 @@ namespace DBProject
             }
         }
 
-        public void insertSchedule(String year, String speciality, List<ExcelRecord> records)
+        public void insertSchedule(List<ExcelRecord> records)
         {
             foreach (ExcelRecord record in records)
             {
@@ -86,7 +86,7 @@ namespace DBProject
                 OleDbDataReader RS;
 
                 String sql = "INSERT INTO Розклад (Спеціальність, Рік_навчання, Номер_запису, День, Пара_номер, Аудиторія, Предмет, Група, Викладач) " +
-                    "VALUES ('" + speciality + "', " + year + ", " + record.ToString() + ")";
+                    "VALUES (" + record.ToString() + ")";
                 Console.WriteLine(sql);
                 using (OleDbConnection Connection = new OleDbConnection())
                 {

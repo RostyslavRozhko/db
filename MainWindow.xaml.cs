@@ -23,15 +23,11 @@ namespace DBProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static String excelPath = @"D:\db\2017_2018__Spring\Інформатика  -3 весна 17-18н.р.  Microsoft Office Excel.xlsx";
-        private static ExcelParser parser = new ExcelParser(excelPath);
         private static String accessPath = "D:\\GIT\\dbproject\\db.accdb";
         private static Access access = new Access(accessPath);
 
         public MainWindow()
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-
             InitializeComponent();
         }
 
@@ -42,6 +38,7 @@ namespace DBProject
 
         private bool Import()
         {
+            access.deleteTables();
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
             openFileDialog1.InitialDirectory = "c:\\";
@@ -59,13 +56,11 @@ namespace DBProject
                         MessageBox.Show(file);
                         ExcelParser parser = new ExcelParser(file);
 
-                        String accessPath = @"C:\Work\c#\db\bin\Debug\db.accdb";
-                        Access access = new Access(accessPath);
-
                         access.insertTeachers(parser.getTeachers());
                         access.insertWeeks(parser.getWeeks());
                         access.insertSchedule(parser.getYear(), parser.getSpeciality(), parser.getEntities());
                     }
+                    MessageBox.Show("Імпортовано");
                     return true;
                 }
                 catch (Exception ex)

@@ -30,6 +30,8 @@ namespace DBProject
 
         public MainWindow()
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
             InitializeComponent();
         }
 
@@ -55,6 +57,14 @@ namespace DBProject
                     foreach (String file in openFileDialog1.FileNames)
                     {
                         MessageBox.Show(file);
+                        ExcelParser parser = new ExcelParser(file);
+
+                        String accessPath = @"C:\Work\c#\db\bin\Debug\db.accdb";
+                        Access access = new Access(accessPath);
+
+                        access.insertTeachers(parser.getTeachers());
+                        access.insertWeeks(parser.getWeeks());
+                        access.insertSchedule(parser.getYear(), parser.getSpeciality(), parser.getEntities());
                     }
                     return true;
                 }

@@ -79,6 +79,19 @@ namespace DBProject
 
         private void mSubmit_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                ExcelWriter writer = new ExcelWriter();
+                List<String[]> data = access.selectTeacher();
+
+                writer.WriteData(data);
+                writer.Save();
+                writer.Close();
+            }
+            catch(Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
 
         }
 

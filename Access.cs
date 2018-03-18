@@ -33,6 +33,37 @@ namespace DBProject
             }
         }
 
+        public List<String[]> selectTeacher()
+        {
+            List<String[]> result = new List<String[]>();
+            OleDbCommand cmd;
+            OleDbDataReader RS;
+            using (OleDbConnection Connection = new OleDbConnection())
+            {
+
+                Connection.ConnectionString = connectionstring;
+                Connection.Open();
+                String sql = "SELECT Дні_тижня.День_назва AS День, Пара_час_з & ' - ' & Пара_час_до AS Пара, Розклад.Аудиторія, Розклад.Предмет, Розклад.Тип, Розклад.Спеціальність, Розклад.Рік_навчання, Розклад.Група FROM(((Розклад INNER JOIN Дні_тижня ON Розклад.День = Дні_тижня.День_номер) INNER JOIN Пари ON Розклад.Пара_номер = Пари.Пара_номер) INNER JOIN Викладачі ON Розклад.Викладач = Викладачі.Викладач_код) WHERE Викладачі.Прізвище LIKE '%Сініцина%' ORDER BY День, Розклад.Пара_номер, Аудиторія, Розклад.Група ";
+                cmd = new OleDbCommand(sql, Connection);
+                RS = cmd.ExecuteReader();
+                while (RS.Read())
+                {
+                    String[] array = new String[8];
+                    array[0] = RS[0].ToString();
+                    array[1] = RS[1].ToString();
+                    array[2] = RS[2].ToString();
+                    array[3] = RS[3].ToString();
+                    array[4] = RS[4].ToString();
+                    array[5] = RS[5].ToString();
+                    array[6] = RS[6].ToString();
+                    array[7] = RS[7].ToString();
+                    result.Add(array);
+                }
+                RS.Close();
+            }
+            return result;
+        }
+
         public void insertTeachers(List<Teacher> teachers)
         {
             foreach (Teacher teacher in teachers)

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace DBProject
 {
@@ -20,33 +23,57 @@ namespace DBProject
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static String excelPath = @"D:\db\2017_2018__Spring\Інформатика  -3 весна 17-18н.р.  Microsoft Office Excel.xlsx";
+        private static ExcelParser parser = new ExcelParser(excelPath);
+        private static String accessPath = "D:\\GIT\\dbproject\\db.accdb";
+        private static Access access = new Access(accessPath);
+
         public MainWindow()
         {
             InitializeComponent();
-            String path = @"D:\db\2017_2018__Spring\Інформатика  -3 весна 17-18н.р.  Microsoft Office Excel.xlsx";
-            ExcelParser parser = new ExcelParser(path);
+        }
 
-            String accessPath = "D:\\GIT\\dbproject\\db.accdb";
-            Access access = new Access(accessPath);
-            Console.WriteLine("suka");
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
             access.deleteTables();
         }
 
-        private void MenuItem_MouseDown(object sender, MouseButtonEventArgs e)
+        private bool Import()
         {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.Filter = "Excel files (*.xlsx)|*.xlsx";
+            openFileDialog1.Multiselect = true;
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == true)
+            {
+                try
+                {
+                    foreach (String file in openFileDialog1.FileNames)
+                    {
+                        MessageBox.Show(file);
+                    }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        private void ClearButton_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ImportButton_Click(object sender, RoutedEventArgs e)
         {
-            grid.Children.Clear();
-            String path = @"D:\db\2017_2018__Spring\Інформатика  -3 весна 17-18н.р.  Microsoft Office Excel.xlsx";
-            ExcelParser parser = new ExcelParser(path);
-
-            String accessPath = "D:\\GIT\\dbproject\\db.accdb";
-            Access access = new Access(accessPath);
-            Console.WriteLine("suka");
-            access.deleteTables();
+            Console.WriteLine("okay");
+            Import();
         }
     }
 }

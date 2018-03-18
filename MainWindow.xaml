@@ -10,8 +10,8 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="База даних">
-                    <MenuItem Name="ImportButton" Header="Імпортувати з Excel" />
-                    <MenuItem Name="ClearButton" Header="Очистити" MouseDown="ClearButton_MouseDown" />
+                    <MenuItem Name="ImportButton" Header="Імпортувати з Excel" Click="ImportButton_Click" />
+                    <MenuItem Name="ClearButton" Header="Очистити" Click="ClearButton_Click" />
                 </MenuItem>
             </Menu>
         </DockPanel>

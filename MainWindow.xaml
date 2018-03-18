@@ -33,7 +33,7 @@
                     <Label Width="200" HorizontalAlignment="Left" Content="Номер тижня"/>
                     <TextBox Name="mWeek" Width="200" HorizontalAlignment="Left" />
 
-                    <Button Name="mSubmit" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30">Застосувати</Button>
+                    <Button Name="mSubmit" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30" Click="mSubmit_Click">Застосувати</Button>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Викладач">
@@ -46,7 +46,7 @@
                     <Label Width="200" HorizontalAlignment="Left" Content="Номер тижня"/>
                     <TextBox Name="tWeek" Width="200" HorizontalAlignment="Left" />
 
-                    <Button Name="tSubmit" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30">Застосувати</Button>
+                    <Button Name="tSubmit" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30" Click="tSubmit_Click">Застосувати</Button>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Студент">
@@ -62,7 +62,12 @@
                     <Label Width="200" HorizontalAlignment="Left" Content="Номер тижня"/>
                     <TextBox Name="sWeek" Width="200" HorizontalAlignment="Left" />
 
-                    <Button Name="sSubmit" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30">Застосувати</Button>
+                    <Button Name="sSubmit" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30" Click="sSubmit_Click">Застосувати</Button>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Помилки">
+                <StackPanel>
+                    
                 </StackPanel>
             </TabItem>
         </TabControl>

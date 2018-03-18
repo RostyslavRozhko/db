@@ -75,5 +75,20 @@ namespace DBProject
             Console.WriteLine("okay");
             Import();
         }
+
+        private void mSubmit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void tSubmit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void sSubmit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

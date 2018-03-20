@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Excel = Microsoft.Office.Interop.Excel;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace DBProject
@@ -71,7 +69,7 @@ namespace DBProject
                 {
                     String teacherId;
                     String groupId;
-                    String teacherName = Values.GetValue(1, 4).ToString();
+                    String teacherName = System.Security.SecurityElement.Escape(Values.GetValue(1, 4).ToString());
 
                     Teacher teacher = Teachers.Find(x => x.Name == teacherName);
                     if (teacher == null)
@@ -104,7 +102,7 @@ namespace DBProject
                             Speciality,
                             DayOfWeek.ToString(),
                             Time.ToString(),
-                            Values.GetValue(1, 3).ToString(),
+                            System.Security.SecurityElement.Escape(Values.GetValue(1, 3).ToString()),
                             teacherId,
                             groupId,
                             room
@@ -134,7 +132,8 @@ namespace DBProject
                 }
                 else
                 {
-                    result.Add(currElement);
+                    if(currElement != "")
+                        result.Add(currElement);
                 }
             }
             return result;

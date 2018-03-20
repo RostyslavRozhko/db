@@ -54,8 +54,8 @@ namespace DBProject
                     ExcelParser parser = new ExcelParser(openFileDialog1.FileNames);
 
                     access.insertTeachers(parser.getTeachers());
-                    access.insertWeeks(parser.getWeeks());
                     access.insertSchedule(parser.getEntities());
+                    access.insertWeeks(parser.getWeeks());
 
                     MessageBox.Show("Імпортовано");
                     return true;
@@ -96,15 +96,29 @@ namespace DBProject
             Console.WriteLine(tLN + " " + tW + " ");
             try
             {
-                ExcelWriter writer = new ExcelWriter();
-                String conditions = "WHERE Викладачі.Прізвище LIKE '%" + tLN + "%'";
-                List<String[]> data = access.SelectTeacher("Викладач1", conditions);
+                if(tW != "")
+                {
+                    ExcelWriter writer = new ExcelWriter();
+                    String conditions = "WHERE Викладачі.Прізвище LIKE '%" + tLN + "%' AND Розклад_Тижні.Номер_Тижні = " + tW;
+                    List<String[]> data = access.SelectTeacher("Викладач2", conditions, 8);
 
-                String[] header = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група", "Тиждень" };
-                writer.WriteHeader(header);
-                writer.WriteData(data);
-                writer.Save();
-                writer.Close();
+                    String[] header = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група" };
+                    writer.WriteHeader(header);
+                    writer.WriteData(data);
+                    writer.Save();
+                    writer.Close();
+                } else
+                {
+                    ExcelWriter writer = new ExcelWriter();
+                    String conditions = "WHERE Викладачі.Прізвище LIKE '%" + tLN + "%'";
+                    List<String[]> data = access.SelectTeacher("Викладач1", conditions, 9);
+
+                    String[] header = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група", "Тиждень" };
+                    writer.WriteHeader(header);
+                    writer.WriteData(data);
+                    writer.Save();
+                    writer.Close();
+                }
             }
             catch (Exception exception)
             {

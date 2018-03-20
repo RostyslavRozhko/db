@@ -29,6 +29,9 @@ namespace DBProject
 
         public void WriteData(List<String[]> data)
         {
+            if (data.Count == 0)
+                return;
+
             int row = 2;
             String prevDay = "";
             int prevDayPos = -1;
@@ -68,7 +71,7 @@ namespace DBProject
                 prevTime = values[1];
                 row++;
             }
-            SetStyles(data.Count+1, data[1].Length+1);
+            SetStyles(data.Count+1, data[0].Length+1);
         }
 
         private void SetStyles(int rows, int cols)
@@ -103,6 +106,9 @@ namespace DBProject
 
             Excel.Range type = Worksheet.Range[Worksheet.Cells[2, 5], Worksheet.Cells[rows, 5]];
             type.Columns.AutoFit();
+
+            Excel.Range spec = Worksheet.Range[Worksheet.Cells[2, 6], Worksheet.Cells[rows, 6]];
+            spec.Columns.AutoFit();
         }
 
         public void Save()

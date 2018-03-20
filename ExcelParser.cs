@@ -17,23 +17,37 @@ namespace DBProject
         private List<ExcelRecord> Records;
         private List<Weeks> WeeksList;
 
-        public ExcelParser(String pathToFile)
+        public ExcelParser(string[] pathToFiles)
         {
-            App = new Excel.Application();
-            App.Visible = false;
-            Workbook = App.Workbooks.Open(pathToFile);
-            Workbook.WebOptions.Encoding = Microsoft.Office.Core.MsoEncoding.msoEncodingUTF8;
-            Worksheet = (Excel.Worksheet)Workbook.Sheets[1];
-            numberOfRows = Worksheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+            foreach (String file in pathToFiles)
+            {
+                App = new Excel.Application();
+                App.Visible = false;
+                Workbook = App.Workbooks.Open(file);
+                Workbook.WebOptions.Encoding = Microsoft.Office.Core.MsoEncoding.msoEncodingUTF8;
+                Worksheet = (Excel.Worksheet)Workbook.Sheets[1];
+                numberOfRows = Worksheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
 
-            parse();
+                Parse();
+                Close();
+            }
         }
 
-        private void parse()
+        public static void Close()
+        {
+            Workbook.Saved = true;
+            App.Quit();
+
+        }
+
+        private void Parse()
         {
             Teachers = new List<Teacher>();
             Records = new List<ExcelRecord>();
             WeeksList = new List<Weeks>();
+
+            String Year = getYear();
+            String Speciality = getSpeciality();
 
             int DayOfWeek = 0;
             int Time = 0;
@@ -41,11 +55,13 @@ namespace DBProject
             for (int index = 11; index <= numberOfRows; index++)
             {
                 Array Values = (Array)Worksheet.get_Range("A" + index.ToString(), "G" + index.ToString()).Cells.Value;
+
                 if (Values.GetValue(1, 1) != null)
                 {
                     DayOfWeek++;
                     Time = 0;
                 }
+
                 if (Values.GetValue(1, 2) != null)
                 {
                     Time++;
@@ -84,6 +100,8 @@ namespace DBProject
                         room = Values.GetValue(1, 7).ToString().Replace(" ", "");
                     }
                     ExcelRecord entity = new ExcelRecord(
+                            Year,
+                            Speciality,
                             DayOfWeek.ToString(),
                             Time.ToString(),
                             Values.GetValue(1, 3).ToString(),

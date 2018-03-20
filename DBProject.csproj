@@ -48,6 +48,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ExcelWriter.cs" />
     <Compile Include="Teacher.cs" />
     <Compile Include="Weeks.cs" />
     <Page Include="MainWindow.xaml">

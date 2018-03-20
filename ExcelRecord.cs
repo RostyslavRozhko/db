@@ -9,6 +9,8 @@ namespace DBProject
     {
         static int counter = 0;
 
+        String Year;
+        String Speciality;
         String DayOfWeek;
         String Time;
         String Subject;
@@ -17,9 +19,11 @@ namespace DBProject
         String Room;
         public int Id;
 
-        public ExcelRecord(String DayOfWeek, String Time, String Subject, String Teacher, String Group, String Room)
+        public ExcelRecord(String Year, String Speciality, String DayOfWeek, String Time, String Subject, String Teacher, String Group, String Room)
         {
             this.Id = counter++;
+            this.Year = Year;
+            this.Speciality = Speciality;
             this.DayOfWeek = DayOfWeek;
             this.Time = Time;
             this.Subject = Subject;
@@ -30,7 +34,7 @@ namespace DBProject
 
         public override string ToString()
         {
-            return this.Id + ", " + this.DayOfWeek + ", " + this.Time + ", '" + this.Room + "', '" + this.Subject + "', " + this.Group + ", " + this.Teacher;
+            return "'" + this.Speciality + "', " + this.Year + ", " +  this.Id + ", " + this.DayOfWeek + ", " + this.Time + ", '" + this.Room + "', '" + this.Subject + "', '" + this.Group + "', " + this.Teacher;
         }
     }
 }

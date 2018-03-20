@@ -56,6 +56,7 @@ namespace DBProject
                     access.insertTeachers(parser.getTeachers());
                     access.insertWeeks(parser.getWeeks());
                     access.insertSchedule(parser.getEntities());
+
                     MessageBox.Show("Імпортовано");
                     return true;
                 }
@@ -90,8 +91,8 @@ namespace DBProject
                 ExcelWriter writer = new ExcelWriter();
                 List<String[]> data = access.selectTeacher();
 
-                String[] head = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група", "Тиждень" };
-                writer.WriteHeader(head);
+                String[] header = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група", "Тиждень" };
+                writer.WriteHeader(header);
                 writer.WriteData(data);
                 writer.Save();
                 writer.Close();

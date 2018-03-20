@@ -23,7 +23,7 @@ namespace DBProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static String accessPath = "D:\\GIT\\dbproject\\db.accdb";
+        private static String accessPath = "D:\\db.accdb";
         private static Access access = new Access(accessPath);
 
         public MainWindow()

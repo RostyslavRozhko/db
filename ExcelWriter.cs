@@ -17,25 +17,18 @@ namespace DBProject
             App = new Excel.Application();
             Workbook = App.Workbooks.Add();
             Worksheet = (Excel.Worksheet) Workbook.Worksheets.get_Item(1);
-            DeclareStyles();
         }
 
-        public void WriteHeader()
+        public void WriteHeader(String[] arr)
         {
-            Worksheet.Cells[1, 2] = "Час";
-            Worksheet.Cells[1, 3] = "Аудиторія";
-            Worksheet.Cells[1, 4] = "Предмет";
-            Worksheet.Cells[1, 5] = "Тип";
-            Worksheet.Cells[1, 6] = "Спеціальність";
-            Worksheet.Cells[1, 7] = "Рік гавчання";
-            Worksheet.Cells[1, 8] = "Група";
-            Worksheet.Cells[1, 9] = "Тиждень";
+            for(int i = 0; i < arr.Length; i++)
+            {
+                Worksheet.Cells[1, i+1] = arr[i];
+            }
         }
 
         public void WriteData(List<String[]> data)
         {
-            WriteHeader();
-
             int row = 2;
             String prevDay = "";
             int prevDayPos = -1;
@@ -43,15 +36,11 @@ namespace DBProject
             String prevTime = "";
             int prevTimePos = -1;
 
-            SetStyle("Document", "A" + 1, "I" + data.Count + 1);
-
             foreach (String[] values in data)
             {
                 if (values[0] == prevDay)
                 {
                     Worksheet.Cells[row, 1] = "";
-
-                    SetStyle("DayOfWeek", "A" + prevDayPos, "A" + row);
                     Worksheet.Range[Worksheet.Cells[prevDayPos, 1], Worksheet.Cells[row, 1]].Merge();
                 }
                 else
@@ -79,29 +68,41 @@ namespace DBProject
                 prevTime = values[1];
                 row++;
             }
+            SetStyles(data.Count+1, data[1].Length+1);
         }
 
-        private void DeclareStyles()
+        private void SetStyles(int rows, int cols)
         {
-            Excel.Style Document = Workbook.Styles.Add("Document");
-            Document.Font.Name = "Times New Roman";
-            Document.Font.Size = 12;
-            Document.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
-            Document.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            Worksheet.Columns.Font.Name = "Times New Roman";
+            Worksheet.Columns.Font.Size = 12;
+            Worksheet.Columns.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
+            Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[rows, cols]];
+            table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
 
-            Excel.Style DayOfWeek = Workbook.Styles.Add("DayOfWeek");
-            Document.Font.Name = "Times New Roman";
-            Document.Font.Size = 12;
-            DayOfWeek.Orientation = Excel.XlOrientation.xlUpward;
-            Document.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
-            Document.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
-        }
+            Excel.Range head = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[1, cols]];
+            head.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            head.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
+            head.Columns.AutoFit();
 
-        private void SetStyle(String StyleName, String Start, String End)
-        {
-            Excel.Range rangeStyles = Worksheet.get_Range(Start, End);
-            rangeStyles.Style = StyleName;
+            Excel.Range day = Worksheet.Range[Worksheet.Cells[2, 1], Worksheet.Cells[rows, 1]];
+            day.Orientation = Excel.XlOrientation.xlUpward;
+            day.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            day.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            day.Columns.AutoFit();
+
+            Excel.Range time = Worksheet.Range[Worksheet.Cells[2, 2], Worksheet.Cells[rows, 2]];
+            time.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            time.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            time.Columns.AutoFit();
+
+            Excel.Range title = Worksheet.Range[Worksheet.Cells[2, 4], Worksheet.Cells[rows, 4]];
+            title.Font.Bold = true;
+            title.HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
+            title.Columns.AutoFit();
+
+            Excel.Range type = Worksheet.Range[Worksheet.Cells[2, 5], Worksheet.Cells[rows, 5]];
+            type.Columns.AutoFit();
         }
 
         public void Save()

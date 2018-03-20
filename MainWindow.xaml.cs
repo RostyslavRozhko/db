@@ -91,6 +91,8 @@ namespace DBProject
                 ExcelWriter writer = new ExcelWriter();
                 List<String[]> data = access.selectTeacher();
 
+                String[] head = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група", "Тиждень" };
+                writer.WriteHeader(head);
                 writer.WriteData(data);
                 writer.Save();
                 writer.Close();

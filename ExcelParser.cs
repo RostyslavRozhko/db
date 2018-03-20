@@ -19,6 +19,10 @@ namespace DBProject
 
         public ExcelParser(string[] pathToFiles)
         {
+            Teachers = new List<Teacher>();
+            Records = new List<ExcelRecord>();
+            WeeksList = new List<Weeks>();
+
             foreach (String file in pathToFiles)
             {
                 App = new Excel.Application();
@@ -42,10 +46,6 @@ namespace DBProject
 
         private void Parse()
         {
-            Teachers = new List<Teacher>();
-            Records = new List<ExcelRecord>();
-            WeeksList = new List<Weeks>();
-
             String Year = getYear();
             String Speciality = getSpeciality();
 
@@ -148,7 +148,7 @@ namespace DBProject
         public String getSpeciality()
         {
             String output = (String)(Worksheet.Cells[7, 1] as Excel.Range).Value;
-            Regex regex = new Regex("\"([^ \"]*)\"");
+            Regex regex = new Regex("\"([^\"]*)\"");
             Match match = regex.Match(output);
             return match.Value.Replace("\"", "");
         }

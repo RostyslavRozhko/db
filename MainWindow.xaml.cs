@@ -23,7 +23,7 @@ namespace DBProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static String accessPath = @"D:\db.accdb";
+        private static String accessPath = @"C:\Work\c#\db\bin\Debug\db.accdb";
         private static Access access = new Access(accessPath);
 
         public MainWindow()
@@ -86,21 +86,6 @@ namespace DBProject
             bool mAW = mAllWeeks.IsChecked ?? false;
             string mW = mWeek.Text;
             Console.WriteLine(mAR + " " + mCR + " ");
-            /*try
-            {
-                ExcelWriter writer = new ExcelWriter();
-                List<String[]> data = access.selectTeacher();
-
-                String[] header = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група", "Тиждень" };
-                writer.WriteHeader(header);
-                writer.WriteData(data);
-                writer.Save();
-                writer.Close();
-            }
-            catch(Exception exception)
-            {
-                MessageBox.Show(exception.Message);
-            }*/
         }
 
         private void tSubmit_Click(object sender, RoutedEventArgs e)
@@ -109,6 +94,22 @@ namespace DBProject
             bool tAW = tAllWeeks.IsChecked ?? false;
             string tW = tWeek.Text;
             Console.WriteLine(tLN + " " + tW + " ");
+            try
+            {
+                ExcelWriter writer = new ExcelWriter();
+                String conditions = "WHERE Викладачі.Прізвище LIKE '%" + tLN + "%'";
+                List<String[]> data = access.SelectTeacher("Викладач1", conditions);
+
+                String[] header = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група", "Тиждень" };
+                writer.WriteHeader(header);
+                writer.WriteData(data);
+                writer.Save();
+                writer.Close();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
         private void sSubmit_Click(object sender, RoutedEventArgs e)

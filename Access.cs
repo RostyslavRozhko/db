@@ -8,7 +8,8 @@ namespace DBProject
 {
     class Access
     {
-        OleDbConnection Connection;
+        private OleDbConnection Connection;
+        private Dictionary<String, String> Queries;
 
         public Access(String path)
         {
@@ -16,6 +17,8 @@ namespace DBProject
             Connection = new OleDbConnection();
             Connection.ConnectionString = connectionstring;
             Connection.Open();
+
+            GetQueries();
         }
 
         public void Close()
@@ -23,24 +26,29 @@ namespace DBProject
             Connection.Close();
         }
 
-        public void select(String table)
+        private void GetQueries()
         {
-            OleDbCommand cmd = new OleDbCommand("SELECT * FROM " + table, Connection);
+            Queries = new Dictionary<String, String>();
+
+            OleDbCommand cmd = new OleDbCommand("SELECT Назва, Запит FROM Запити", Connection);
             OleDbDataReader RS = cmd.ExecuteReader();
             while (RS.Read())
             {
-                Console.WriteLine(RS[0] + " " + RS[1]);
+                Queries.Add(RS[0].ToString(), RS[1].ToString());
             }
             RS.Close();
         }
 
-        public List<String[]> selectTeacher()
+        public List<String[]> SelectTeacher(String queryName, String conditions)
         {
             List<String[]> result = new List<String[]>();
 
-            String sql = "SELECT Дні_тижня.День_назва AS День, Пара_час_з & ' - ' & Пара_час_до AS Пара, Розклад.Аудиторія, Розклад.Предмет, Розклад.Тип, Розклад.Спеціальність, Розклад.Рік_навчання, Розклад.Група FROM(((Розклад INNER JOIN Дні_тижня ON Розклад.День = Дні_тижня.День_номер) INNER JOIN Пари ON Розклад.Пара_номер = Пари.Пара_номер) INNER JOIN Викладачі ON Розклад.Викладач = Викладачі.Викладач_код) WHERE Викладачі.Прізвище LIKE '%Сініцина%' ORDER BY День, Розклад.Пара_номер, Аудиторія, Розклад.Група ";
+            String query = Queries["queryName"];
+            String sql = query.Replace("$", conditions);
+
             OleDbCommand cmd = new OleDbCommand(sql, Connection);
             OleDbDataReader RS = cmd.ExecuteReader();
+
             while (RS.Read())
             {
                 String[] array = new String[8];
@@ -54,7 +62,6 @@ namespace DBProject
                 array[7] = RS[7].ToString();
                 result.Add(array);
             }
-            RS.Close();
 
             return result;
         }

@@ -23,7 +23,7 @@ namespace DBProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static String accessPath = @"C:\Work\c#\db\bin\Debug\db.accdb";
+        private static String accessPath = @"D:\db.accdb";
         private static Access access = new Access(accessPath);
 
         public MainWindow()
@@ -79,7 +79,14 @@ namespace DBProject
 
         private void mSubmit_Click(object sender, RoutedEventArgs e)
         {
-            try
+            bool mAR = mAllRooms.IsChecked ?? false;
+            bool mCR = mCompRooms.IsChecked ?? false;
+            string mBld = mBuilding.Text;
+            string mR = mRoom.Text;
+            bool mAW = mAllWeeks.IsChecked ?? false;
+            string mW = mWeek.Text;
+            Console.WriteLine(mAR + " " + mCR + " ");
+            /*try
             {
                 ExcelWriter writer = new ExcelWriter();
                 List<String[]> data = access.selectTeacher();
@@ -91,18 +98,50 @@ namespace DBProject
             catch(Exception exception)
             {
                 MessageBox.Show(exception.Message);
-            }
-
+            }*/
         }
 
         private void tSubmit_Click(object sender, RoutedEventArgs e)
         {
-
+            string tLN = tLastname.Text;
+            bool tAW = tAllWeeks.IsChecked ?? false;
+            string tW = tWeek.Text;
+            Console.WriteLine(tLN + " " + tW + " ");
         }
 
         private void sSubmit_Click(object sender, RoutedEventArgs e)
         {
+            string sS = sSpecial.Text;
+            string sY = sYear.Text;
+            bool sAW = sAllWeeks.IsChecked ?? false;
+            string sW = sWeek.Text;
+        }
 
+        private void mBuilding_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            mAllRooms.IsChecked = false;
+        }
+
+        private void mRoom_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            mAllRooms.IsChecked = false;
+            mCompRooms.IsChecked = false;
+            mBuilding.Text = "";
+        }
+
+        private void mWeek_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            mAllWeeks.IsChecked = false;
+        }
+
+        private void tWeek_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            tAllWeeks.IsChecked = false;
+        }
+
+        private void sWeek_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            sAllWeeks.IsChecked = false;
         }
     }
 }

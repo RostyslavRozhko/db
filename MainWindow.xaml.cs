@@ -73,7 +73,6 @@ namespace DBProject
 
         private void ImportButton_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("okay");
             Import();
         }
 

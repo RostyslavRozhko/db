@@ -44,73 +44,86 @@ namespace DBProject
 
         private void Parse()
         {
-            String Year = getYear();
-            String Speciality = getSpeciality();
-
-            int DayOfWeek = 0;
-            int Time = 0;
-
-            for (int index = 11; index <= numberOfRows; index++)
+            try
             {
-                Array Values = (Array)Worksheet.get_Range("A" + index.ToString(), "G" + index.ToString()).Cells.Value;
+                String Year = getYear();
+                String Speciality = getSpeciality();
 
-                if (Values.GetValue(1, 1) != null)
+                int DayOfWeek = 0;
+                int Time = 0;
+
+                for (int index = 11; index <= numberOfRows; index++)
                 {
-                    DayOfWeek++;
-                    Time = 0;
+                    Array Values = (Array)Worksheet.get_Range("A" + index.ToString(), "G" + index.ToString()).Cells.Value;
+
+                    if (Values.GetValue(1, 1) != null)
+                    {
+                        DayOfWeek++;
+                        Time = 0;
+                    }
+
+                    if (Values.GetValue(1, 2) != null)
+                    {
+                        Time++;
+                    }
+
+                    if (Values.GetValue(1, 3) != null)
+                    {
+                        String teacherId;
+                        String groupId;
+                        String teacherName;
+                        if (Values.GetValue(1, 4) != null)
+                        {
+                            teacherName = System.Security.SecurityElement.Escape(Values.GetValue(1, 4).ToString());
+                        } else
+                        {
+                            teacherName = "error";
+                        }
+
+                        Teacher teacher = Teachers.Find(x => x.Name == teacherName);
+                        if (teacher == null)
+                        {
+                            Teacher newTeacher = new Teacher(teacherName);
+                            Teachers.Add(newTeacher);
+                            teacherId = newTeacher.Id.ToString();
+                        }
+                        else
+                        {
+                            teacherId = teacher.Id.ToString();
+                        }
+
+                        if (Values.GetValue(1, 5).ToString() == "лекція")
+                        {
+                            groupId = "0";
+                        }
+                        else
+                        {
+                            groupId = Values.GetValue(1, 5).ToString();
+                        }
+
+                        String room = "NULL";
+                        if (Values.GetValue(1, 7) != null)
+                        {
+                            room = Values.GetValue(1, 7).ToString().Replace(" ", "");
+                        }
+                        ExcelRecord entity = new ExcelRecord(
+                                Year,
+                                Speciality,
+                                DayOfWeek.ToString(),
+                                Time.ToString(),
+                                System.Security.SecurityElement.Escape(Values.GetValue(1, 3).ToString()),
+                                teacherId,
+                                groupId,
+                                room
+                            );
+                        Weeks weeksObj = new Weeks(entity.Id, weeks(Values.GetValue(1, 6).ToString()));
+                        Records.Add(entity);
+                        WeeksList.Add(weeksObj);
+                    }
                 }
-
-                if (Values.GetValue(1, 2) != null)
-                {
-                    Time++;
-                }
-
-                if (Values.GetValue(1, 3) != null)
-                {
-                    String teacherId;
-                    String groupId;
-                    String teacherName = System.Security.SecurityElement.Escape(Values.GetValue(1, 4).ToString());
-
-                    Teacher teacher = Teachers.Find(x => x.Name == teacherName);
-                    if (teacher == null)
-                    {
-                        Teacher newTeacher = new Teacher(teacherName);
-                        Teachers.Add(newTeacher);
-                        teacherId = newTeacher.Id.ToString();
-                    }
-                    else
-                    {
-                        teacherId = teacher.Id.ToString();
-                    }
-
-                    if (Values.GetValue(1, 5).ToString() == "лекція")
-                    {
-                        groupId = "0";
-                    }
-                    else
-                    {
-                        groupId = Values.GetValue(1, 5).ToString();
-                    }
-
-                    String room = "NULL";
-                    if (Values.GetValue(1, 7) != null)
-                    {
-                        room = Values.GetValue(1, 7).ToString().Replace(" ", "");
-                    }
-                    ExcelRecord entity = new ExcelRecord(
-                            Year,
-                            Speciality,
-                            DayOfWeek.ToString(),
-                            Time.ToString(),
-                            System.Security.SecurityElement.Escape(Values.GetValue(1, 3).ToString()),
-                            teacherId,
-                            groupId,
-                            room
-                        );
-                    Weeks weeksObj = new Weeks(entity.Id, weeks(Values.GetValue(1, 6).ToString()));
-                    Records.Add(entity);
-                    WeeksList.Add(weeksObj);
-                }
+            } catch(Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
 

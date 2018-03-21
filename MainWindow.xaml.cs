@@ -23,7 +23,7 @@ namespace DBProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static String accessPath = @"C:\Work\c#\db\bin\Debug\db.accdb";
+        private static String accessPath = @"D:\db.accdb";
         private static Access access = new Access(accessPath);
 
         public MainWindow()
@@ -51,13 +51,15 @@ namespace DBProject
             {
                 try
                 {
+                    MessageBox.Show("Імпорт може тривати кілька хвилин. Ми повідомимо, коли все буде готово.", "Обробка");
+
                     ExcelParser parser = new ExcelParser(openFileDialog1.FileNames);
 
                     access.insertTeachers(parser.getTeachers());
                     access.insertSchedule(parser.getEntities());
                     access.insertWeeks(parser.getWeeks());
 
-                    MessageBox.Show("Імпортовано");
+                    MessageBox.Show("Успішно імпортовано. Перевірте вкладку 'Помилки', щоб переконатися, що в розкладі немає накладок.", "Готово");
                     return true;
                 }
                 catch (Exception ex)
@@ -96,7 +98,7 @@ namespace DBProject
             Console.WriteLine(tLN + " " + tW + " ");
             try
             {
-                if(tW != "")
+                if(!tAW)
                 {
                     ExcelWriter writer = new ExcelWriter();
                     String conditions = "WHERE Викладачі.Прізвище LIKE '%" + tLN + "%' AND Розклад_Тижні.Номер_Тижні = " + tW;
@@ -113,7 +115,7 @@ namespace DBProject
                     String conditions = "WHERE Викладачі.Прізвище LIKE '%" + tLN + "%'";
                     List<String[]> data = access.SelectTeacher("Викладач1", conditions, 9);
 
-                    String[] header = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група", "Тиждень" };
+                    String[] header = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група", "Тижні" };
                     writer.WriteHeader(header);
                     writer.WriteData(data);
                     writer.Save();

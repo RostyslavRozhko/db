@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -113,7 +114,16 @@ namespace DBProject
 
         public void Save()
         {
-            Workbook.SaveAs("file.xlsx");
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "Excel files (*.xlsx)|*.xlsx";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == true)
+            {
+                Workbook.SaveAs(saveFileDialog1.FileName);
+            }
         }
 
         public void Close()

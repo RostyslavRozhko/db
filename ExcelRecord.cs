@@ -17,9 +17,10 @@ namespace DBProject
         String Teacher;
         String Group;
         String Room;
+        String Weeks;
         public int Id;
 
-        public ExcelRecord(String Year, String Speciality, String DayOfWeek, String Time, String Subject, String Teacher, String Group, String Room)
+        public ExcelRecord(String Year, String Speciality, String DayOfWeek, String Time, String Subject, String Teacher, String Group, String Room, String Weeks)
         {
             this.Id = counter++;
             this.Year = Year;
@@ -30,11 +31,12 @@ namespace DBProject
             this.Teacher = Teacher;
             this.Group = Group;
             this.Room = Room;
+            this.Weeks = Weeks;
         }
 
         public override string ToString()
         {
-            return "'" + this.Speciality + "', " + this.Year + ", " +  this.Id + ", " + this.DayOfWeek + ", " + this.Time + ", '" + this.Room + "', '" + this.Subject + "', '" + this.Group + "', " + this.Teacher;
+            return "'" + this.Speciality + "', " + this.Year + ", " +  this.Id + ", " + this.DayOfWeek + ", " + this.Time + ", '" + this.Room + "', '" + this.Subject + "', '" + this.Group + "', " + this.Teacher + ", '" + this.Weeks + "'";
         }
     }
 }

@@ -114,7 +114,8 @@ namespace DBProject
                                 System.Security.SecurityElement.Escape(Values.GetValue(1, 3).ToString()),
                                 teacherId,
                                 groupId,
-                                room
+                                room,
+                                Values.GetValue(1, 6).ToString()
                             );
                         Weeks weeksObj = new Weeks(entity.Id, weeks(Values.GetValue(1, 6).ToString()));
                         Records.Add(entity);

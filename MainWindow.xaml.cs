@@ -23,7 +23,7 @@ namespace DBProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static String accessPath = @"D:\db.accdb";
+        private static String accessPath = @"C:\Users\rosty\Downloads\Telegram Desktop\db.accdb";
         private static Access access = new Access(accessPath);
 
         public MainWindow()
@@ -54,6 +54,7 @@ namespace DBProject
                     MessageBox.Show("Імпорт може тривати кілька хвилин. Ми повідомимо, коли все буде готово.", "Обробка");
 
                     ExcelParser parser = new ExcelParser(openFileDialog1.FileNames);
+                    parser.parseSchedule();
 
                     access.insertTeachers(parser.getTeachers());
                     access.insertSchedule(parser.getEntities());

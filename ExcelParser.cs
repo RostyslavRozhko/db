@@ -14,8 +14,21 @@ namespace DBProject
         private List<Teacher> Teachers;
         private List<ExcelRecord> Records;
         private List<Weeks> WeeksList;
+        private String[] pathToFiles;
 
         public ExcelParser(string[] pathToFiles)
+        {
+            this.pathToFiles = pathToFiles;
+        }
+
+        public void parseTimetable()
+        {
+            foreach (String file in pathToFiles)
+            {
+            }
+        }
+
+        public void parseSchedule()
         {
             Teachers = new List<Teacher>();
             Records = new List<ExcelRecord>();
@@ -170,7 +183,14 @@ namespace DBProject
         {
             String output = (String)(Worksheet.Cells[7, 1] as Excel.Range).Value;
             Regex regex = new Regex("[1-4]");
+            Regex specRegex = new Regex("МП");
             Match match = regex.Match(output);
+            Match specMatch = specRegex.Match(output);
+            if (specMatch.Value == "МП")
+            {
+                String year = match.Value;
+                return year == "1" ? "5" : "6";
+            }
             return match.Value;
         }
 

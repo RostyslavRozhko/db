@@ -51,6 +51,10 @@ namespace DBProject
             int rows = data.Count + 1;
             int cols = data[0].Length;
 
+            Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 3], Worksheet.Cells[rows, cols]];
+            table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            table.NumberFormat = "@";
+
             Console.WriteLine(cols);
 
             if (data.Count == 0)
@@ -102,12 +106,12 @@ namespace DBProject
 
         private void SetStyles(int rows, int cols)
         {
+            Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[rows, cols]];
+            table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+
             Worksheet.Columns.Font.Name = "Times New Roman";
             Worksheet.Columns.Font.Size = 12;
             Worksheet.Columns.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
-
-            Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[rows, cols]];
-            table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
 
             Excel.Range head = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[1, cols]];
             head.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;

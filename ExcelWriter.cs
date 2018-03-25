@@ -12,6 +12,7 @@ namespace DBProject
         private static Excel.Workbook Workbook = null;
         private static Excel.Application App = null;
         private static Excel.Worksheet Worksheet = null;
+        private int row = 1;
 
         public ExcelWriter()
         {
@@ -20,13 +21,15 @@ namespace DBProject
             Worksheet = (Excel.Worksheet) Workbook.Worksheets.get_Item(1);
         }
 
-        public void WriteHeader(String[] arr)
+        public void WriteHeader(String[] arr, int concat = 1)
         {
             for(int i = 0; i < arr.Length; i++)
             {
                 Worksheet.Cells[1, i+1] = arr[i];
 
             }
+            Worksheet.Range[Worksheet.Cells[row, 1], Worksheet.Cells[row, concat]].Merge();
+            row++;
         }
 
         public void WriteData(List<String[]> data)
@@ -37,7 +40,6 @@ namespace DBProject
             int rows = data.Count + 1;
             int cols = data[0].Length;
 
-            int row = 2;
             String prevDay = "";
             int prevDayPos = -1;
 

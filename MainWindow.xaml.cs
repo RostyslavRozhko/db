@@ -88,6 +88,16 @@ namespace DBProject
             bool mAW = mAllWeeks.IsChecked ?? false;
             string mW = mWeek.Text;
             Console.WriteLine(mAR + " " + mCR + " ");
+            try
+            {
+                ExcelWriter writer = new ExcelWriter();
+
+                String[] header = { };
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
         private void tSubmit_Click(object sender, RoutedEventArgs e)
@@ -106,7 +116,7 @@ namespace DBProject
 
                     String[] header = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група" };
                     writer.WriteHeader(header);
-                    writer.WriteData(data);
+                    writer.WriteDataTeacher(data);
                     writer.Save();
                     writer.Close();
                 } else
@@ -117,7 +127,7 @@ namespace DBProject
 
                     String[] header = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група", "Тижні" };
                     writer.WriteHeader(header);
-                    writer.WriteData(data);
+                    writer.WriteDataTeacher(data);
                     writer.Save();
                     writer.Close();
                 }

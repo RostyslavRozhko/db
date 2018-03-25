@@ -54,8 +54,7 @@ namespace DBProject
                 String[] array = new String[fieldsCount];
                 for (int i = 0; i < fieldsCount - 1; i++)
                 {
-                    Console.WriteLine(RS[i + 1]);
-                    array[i] = RS[i + 1].ToString();
+                    array[i] = RS[i].ToString();
                 }
                 
                 result.Add(array);

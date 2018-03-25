@@ -30,6 +30,23 @@ namespace DBProject
 
         public void WriteData(List<String[]> data)
         {
+            int rows = data.Count + 1;
+            int cols = data[0].Length + 1;
+
+            int currentRow = 1;
+
+            foreach (String[] values in data)
+            {
+                for(int i = 1; i < cols; i++)
+                {
+                    Worksheet.Cells[currentRow, i] = values[1];
+                }
+                currentRow = 1;
+            }
+        }
+
+        public void WriteDataTeacher(List<String[]> data)
+        {
             if (data.Count == 0)
                 return;
 

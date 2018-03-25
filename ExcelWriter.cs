@@ -38,7 +38,7 @@ namespace DBProject
 
             foreach (String[] values in data)
             {
-                for(int i = 1; i < cols; i++)
+                for(int i = 1; i <= cols; i++)
                 {
                     Worksheet.Cells[currentRow, i] = values[i-1];
                 }
@@ -48,6 +48,9 @@ namespace DBProject
 
         public void WriteDataTeacher(List<String[]> data)
         {
+            if (data.Count == 0)
+                return;
+
             int rows = data.Count + 1;
             int cols = data[0].Length;
 
@@ -56,9 +59,6 @@ namespace DBProject
             table.NumberFormat = "@";
 
             Console.WriteLine(cols);
-
-            if (data.Count == 0)
-                return;
 
             int row = 2;
             String prevDay = "";
@@ -69,7 +69,6 @@ namespace DBProject
 
             foreach (String[] values in data)
             {
-                Console.WriteLine(values[cols - 1]);
                 if (values[0] == prevDay)
                 {
                     Worksheet.Cells[row, 1] = "";
@@ -94,7 +93,6 @@ namespace DBProject
 
                 for (int i = 2; i < cols; i++)
                 {
-                    Console.WriteLine(values[i]);
                     Worksheet.Cells[row, i + 1] = values[i];
                 }
                 prevDay = values[0];

@@ -40,6 +40,10 @@ namespace DBProject
             int rows = data.Count + 1;
             int cols = data[0].Length;
 
+            Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 4], Worksheet.Cells[rows, cols]];
+            table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            table.NumberFormat = "@";
+
             String prevDay = "";
             int prevDayPos = -1;
 
@@ -51,6 +55,18 @@ namespace DBProject
 
             foreach (String[] values in data)
             {
+                if (values[0] == prevDay)
+                {
+                    Worksheet.Cells[row, 1] = "";
+                    Worksheet.Range[Worksheet.Cells[prevTimePos, 1], Worksheet.Cells[row, 1]].Merge();
+                }
+                else
+                {
+                    prevTimePos = row;
+                    prevTime = "";
+                    Worksheet.Cells[row, 1] = values[0];
+                }
+
                 if (values[1] == prevTime)
                 {
                     Worksheet.Cells[row, 2] = "";
@@ -83,6 +99,8 @@ namespace DBProject
                 prevRoom = values[2];
                 row++;
             }
+            SetStyles(rows, cols);
+
         }
 
         public void WriteDataTeacher(List<String[]> data)

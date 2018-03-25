@@ -23,7 +23,7 @@ namespace DBProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static String accessPath = @"C:\Users\rosty\Downloads\Telegram Desktop\db.accdb";
+        private static String accessPath = @"D:\db.accdb";
         private static Access access = new Access(accessPath);
 
         public MainWindow()
@@ -108,8 +108,9 @@ namespace DBProject
                     }
                     Console.WriteLine(conditions);
 
-                    List<String[]> data = access.Select("Методист2", conditions, 6);
-                    
+                    List<String[]> data = access.Select("Методист2", conditions, 7);
+                    String[] header = { "", "Час", "Аудиторія", "Предмет", "Викладач", "Спеціальність", "Курс" };
+                    writer.WriteHeader(header);
                     writer.WriteData(data);
                     writer.Save();
                     writer.Close();
@@ -139,8 +140,10 @@ namespace DBProject
                         conditions = "";
                     }
                     Console.WriteLine(conditions);
-                    List<String[]> data = access.Select("Методист1", conditions, 5);
-                    
+                    List<String[]> data = access.Select("Методист1", conditions, 6);
+
+                    String[] header = { "", "Час", "Аудиторія", "Предмет", "Викладач", "Тижні" };
+                    writer.WriteHeader(header);
                     writer.WriteData(data);
                     writer.Save();
                     writer.Close();

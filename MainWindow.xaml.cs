@@ -87,12 +87,65 @@ namespace DBProject
             string mR = mRoom.Text;
             bool mAW = mAllWeeks.IsChecked ?? false;
             string mW = mWeek.Text;
-            Console.WriteLine(mAR + " " + mCR + " ");
             try
             {
-                ExcelWriter writer = new ExcelWriter();
+                if (!mAW)
+                {
+                    ExcelWriter writer = new ExcelWriter();
+                    String conditions = "WHERE Розклад_Тижні.Номер_Тижні = " + mW + " ";
+                    if (mR != "")
+                    {
+                        conditions += "AND Розклад.Аудиторія = '" + mR + "' ";
+                    }
+                    else if (mBld != "")
+                    {
+                        conditions += "AND Аудиторії.Корпус = '" + mBld + "' ";
+                    }
+                    if (mCR)
+                    {
+                        conditions += "AND Аудиторії.Компютерний_клас = 1 ";
+                    }
+                    Console.WriteLine(conditions);
+                    return;
 
-                String[] header = { };
+                    List<String[]> data = access.Select("Методист2", conditions, 6);
+                    
+                    writer.WriteData(data);
+                    writer.Save();
+                    writer.Close();
+                }
+                else
+                {
+                    ExcelWriter writer = new ExcelWriter();
+                    String conditions = "WHERE ";
+                    if (mR != "")
+                    {
+                        conditions += "Розклад.Аудиторія = '" + mR + "' ";
+                    }
+                    else if (mBld != "")
+                    {
+                        conditions += "Аудиторії.Корпус = '" + mBld + "' ";
+                        if (mCR)
+                        {
+                            conditions += "AND Аудиторії.Компютерний_клас = 1 ";
+                        }
+                    }
+                    else if (mCR)
+                    {
+                        conditions += "Аудиторії.Компютерний_клас = 1 ";
+                    }
+                    if(conditions == "WHERE ")
+                    {
+                        conditions = "";
+                    }
+                    Console.WriteLine(conditions);
+                    return;
+                    List<String[]> data = access.Select("Методист1", conditions, 5);
+                    
+                    writer.WriteData(data);
+                    writer.Save();
+                    writer.Close();
+                }
             }
             catch (Exception exception)
             {
@@ -105,14 +158,13 @@ namespace DBProject
             string tLN = tLastname.Text;
             bool tAW = tAllWeeks.IsChecked ?? false;
             string tW = tWeek.Text;
-            Console.WriteLine(tLN + " " + tW + " ");
             try
             {
                 if(!tAW)
                 {
                     ExcelWriter writer = new ExcelWriter();
                     String conditions = "WHERE Викладачі.Прізвище LIKE '%" + tLN + "%' AND Розклад_Тижні.Номер_Тижні = " + tW;
-                    List<String[]> data = access.SelectTeacher("Викладач2", conditions, 8);
+                    List<String[]> data = access.Select("Викладач2", conditions, 8);
 
                     String[] header = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група" };
                     writer.WriteHeader(header);
@@ -123,7 +175,7 @@ namespace DBProject
                 {
                     ExcelWriter writer = new ExcelWriter();
                     String conditions = "WHERE Викладачі.Прізвище LIKE '%" + tLN + "%'";
-                    List<String[]> data = access.SelectTeacher("Викладач1", conditions, 9);
+                    List<String[]> data = access.Select("Викладач1", conditions, 9);
 
                     String[] header = { "", "Час", "Аудиторія", "Предмет", "Тип", "Спеціальність", "Рік навчання", "Група", "Тижні" };
                     writer.WriteHeader(header);

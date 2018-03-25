@@ -39,7 +39,7 @@ namespace DBProject
             RS.Close();
         }
 
-        public List<String[]> SelectTeacher(String queryName, String conditions, int fieldsCount)
+        public List<String[]> Select(String queryName, String conditions, int fieldsCount)
         {
             List<String[]> result = new List<String[]>();
 
@@ -55,7 +55,6 @@ namespace DBProject
                 for (int i = 0; i < fieldsCount; i++)
                 {
                     array[i] = RS[i].ToString();
-                    Console.WriteLine(array[i]);
                 }
                 
                 result.Add(array);
@@ -83,7 +82,6 @@ namespace DBProject
                 foreach (String weekNum in weeksList.WeeksList)
                 {
                     String sql = "INSERT INTO Розклад_Тижні (Номер_запису_Розклад, Номер_Тижні) VALUES (" + weeksList.EntityId + ", " + weekNum + ")";
-                    Console.WriteLine(sql);
                     OleDbCommand cmd = new OleDbCommand(sql, Connection);
                     OleDbDataReader RS = cmd.ExecuteReader();
                     RS.Close();

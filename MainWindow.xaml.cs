@@ -106,7 +106,6 @@ namespace DBProject
                         conditions += "AND Аудиторії.Компютерний_клас = 1 ";
                     }
                     Console.WriteLine(conditions);
-                    return;
 
                     List<String[]> data = access.Select("Методист2", conditions, 6);
                     
@@ -139,7 +138,6 @@ namespace DBProject
                         conditions = "";
                     }
                     Console.WriteLine(conditions);
-                    return;
                     List<String[]> data = access.Select("Методист1", conditions, 5);
                     
                     writer.WriteData(data);
@@ -196,6 +194,38 @@ namespace DBProject
             string sY = sYear.Text;
             bool sAW = sAllWeeks.IsChecked ?? false;
             string sW = sWeek.Text;
+
+            try
+            {
+                if (!sAW)
+                {
+                    ExcelWriter writer = new ExcelWriter();
+                    String conditions = "WHERE Розклад.Спеціальність = '" + sS + "' AND Розклад.Рік_навчання = " + sY + " AND Розклад_Тижні.Номер_Тижні = " + sW;
+                    List<String[]> data = access.Select("Студент2", conditions, 7);
+
+                    String[] header = { "", "Час", "Аудиторія", "Викладач", "Предмет", "Тип", "Група" };
+                    writer.WriteHeader(header);
+                    writer.WriteDataTeacher(data);
+                    writer.Save();
+                    writer.Close();
+                }
+                else
+                {
+                    ExcelWriter writer = new ExcelWriter();
+                    String conditions = "WHERE Розклад.Спеціальність = '" + sS + "' AND Розклад.Рік_навчання = " + sY;
+                    List<String[]> data = access.Select("Студент1", conditions, 8);
+
+                    String[] header = { "", "Час", "Аудиторія", "Викладач", "Предмет", "Тип", "Група", "Тижні" };
+                    writer.WriteHeader(header);
+                    writer.WriteDataTeacher(data);
+                    writer.Save();
+                    writer.Close();
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
         private void mBuilding_TextChanged(object sender, TextChangedEventArgs e)

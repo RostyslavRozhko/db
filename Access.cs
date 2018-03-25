@@ -52,9 +52,10 @@ namespace DBProject
             while (RS.Read())
             {
                 String[] array = new String[fieldsCount];
-                for (int i = 0; i < fieldsCount - 1; i++)
+                for (int i = 0; i < fieldsCount; i++)
                 {
                     array[i] = RS[i].ToString();
+                    Console.WriteLine(array[i]);
                 }
                 
                 result.Add(array);
@@ -94,7 +95,7 @@ namespace DBProject
         {
             foreach (ExcelRecord record in records)
             {
-                String sql = "INSERT INTO Розклад (Спеціальність, Рік_навчання, Номер_запису, День, Пара_номер, Аудиторія, Предмет, Група, Викладач) " +
+                String sql = "INSERT INTO Розклад (Спеціальність, Рік_навчання, Номер_запису, День, Пара_номер, Аудиторія, Предмет, Група, Викладач, Тижні) " +
                     "VALUES (" + record.ToString() + ")";
 
                 OleDbCommand cmd = new OleDbCommand(sql, Connection);

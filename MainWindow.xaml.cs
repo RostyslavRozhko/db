@@ -107,7 +107,6 @@ namespace DBProject
                         conditions += "AND Аудиторії.Компютерний_клас = 1 ";
                     }
                     Console.WriteLine(conditions);
-                    return;
 
                     List<String[]> data = access.Select("Методист2", conditions, 6);
                     
@@ -140,7 +139,7 @@ namespace DBProject
                         conditions = "";
                     }
                     Console.WriteLine(conditions);
-                    return;
+
                     List<String[]> data = access.Select("Методист1", conditions, 5);
                     
                     writer.WriteData(data);

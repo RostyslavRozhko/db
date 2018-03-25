@@ -31,18 +31,55 @@ namespace DBProject
 
         public void WriteData(List<String[]> data)
         {
+            if (data.Count == 0)
+                return;
+
             int rows = data.Count + 1;
             int cols = data[0].Length;
 
-            int currentRow = 1;
+            int row = 2;
+            String prevDay = "";
+            int prevDayPos = -1;
+
+            String prevTime = "";
+            int prevTimePos = -1;
+
+            String prevRoom = "";
+            int prevRoomPos = -1;
 
             foreach (String[] values in data)
             {
-                for(int i = 1; i <= cols; i++)
+                if (values[1] == prevTime)
                 {
-                    Worksheet.Cells[currentRow, i] = values[i-1];
+                    Worksheet.Cells[row, 2] = "";
+                    Worksheet.Range[Worksheet.Cells[prevTimePos, 2], Worksheet.Cells[row, 2]].Merge();
                 }
-                currentRow++;
+                else
+                {
+                    prevTimePos = row;
+                    prevRoom = "";
+                    Worksheet.Cells[row, 2] = values[1];
+                }
+
+                if (values[2] == prevRoom)
+                {
+                    Worksheet.Cells[row, 3] = "";
+                    Worksheet.Range[Worksheet.Cells[prevRoomPos, 3], Worksheet.Cells[row, 3]].Merge();
+                }
+                else
+                {
+                    prevRoomPos = row;
+                    Worksheet.Cells[row, 3] = values[2];
+                }
+
+                for (int i = 3; i < cols; i++)
+                {
+                    Worksheet.Cells[row, i + 1] = values[i];
+                }
+                prevDay = values[0];
+                prevTime = values[1];
+                prevRoom = values[2];
+                row++;
             }
         }
 
@@ -57,8 +94,6 @@ namespace DBProject
             Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 3], Worksheet.Cells[rows, cols]];
             table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
             table.NumberFormat = "@";
-
-            Console.WriteLine(cols);
 
             int row = 2;
             String prevDay = "";

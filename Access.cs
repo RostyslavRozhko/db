@@ -11,9 +11,9 @@ namespace DBProject
         private OleDbConnection Connection;
         private Dictionary<String, String> Queries;
 
-        public Access(String path)
+        public Access()
         {
-            String connectionstring = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path + ";Persist Security Info=False";
+            String connectionstring = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\\db.accdb";
             Connection = new OleDbConnection();
             Connection.ConnectionString = connectionstring;
             Connection.Open();

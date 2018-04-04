@@ -152,7 +152,7 @@ namespace DBProject
                 if (currElement.IndexOf('-') > -1)
                 {
                     string[] split = currElement.Split('-');
-                    for (int j = Int32.Parse(split[0]); j < Int32.Parse(split[1]); j++)
+                    for (int j = Int32.Parse(split[0]); j <= Int32.Parse(split[1]); j++)
                     {
                         result.Add(j.ToString());
                     }

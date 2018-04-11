@@ -157,6 +157,76 @@ namespace DBProject
             SetStyles(rows, cols);
         }
 
+        public void WriteDataMeth(List<String[]> data, int subCols = 2)
+        {
+            if (data.Count == 0)
+                return;
+
+            int rows = data.Count + 1;
+            int cols = data[0].Length;
+
+            //Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 4], Worksheet.Cells[rows, cols]];
+            //table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            //table.NumberFormat = "@";
+
+            String prevDay = "";
+            int prevDayPos = -1;
+
+            String prevTime = "";
+            int prevTimePos = -1;
+
+            String prevRoom = "";
+            int prevRoomPos = -1;
+
+            int dayCol = 0;
+
+            int rowww = 2;
+
+            foreach (String[] values in data)
+            {
+                if (values[0] == prevDay)
+                {
+                    //Worksheet.Cells[1, dayCol] = "";
+                    //Worksheet.Range[Worksheet.Cells[prevTimePos, 1], Worksheet.Cells[2, dayCol]].Merge();
+                }
+                else
+                {
+                    dayCol += 2;
+                    Worksheet.Cells[1, dayCol] = values[0];
+                    rowww = 2;
+                }
+
+                /*if (values[1] == prevTime)
+                {
+                    Worksheet.Cells[rowww, 1] = "";
+                    Worksheet.Range[Worksheet.Cells[prevTimePos, 1], Worksheet.Cells[rowww, 1]].Merge();
+                }
+                else
+                {
+                    prevTimePos = rowww;
+                    Worksheet.Cells[rowww, 1] = values[1];
+                }
+                */
+
+
+                Worksheet.Cells[rowww, 2] = values[2];
+
+                int counter = 0;
+                for (int i = 3; i < cols; i++)
+                {
+                    Console.WriteLine(rowww + " " + (dayCol + counter) + " " + values[i]);
+                    Worksheet.Cells[rowww, dayCol + counter] = values[i];
+                    counter++;
+                }
+                counter = 0;
+
+                prevDay = values[0];
+                prevTime = values[1];
+                //prevRoom = values[2];
+                rowww++;
+            }
+        }
+
         private void SetStyles(int rows, int cols)
         {
             Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[rows, cols]];

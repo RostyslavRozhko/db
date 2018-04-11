@@ -18,12 +18,12 @@
         <TabControl Margin="0,20,0,0">
             <TabItem Header="Методист">
                 <StackPanel>
-                    <CheckBox Name="mAllRooms" IsThreeState="False" IsChecked="True" Content="Лекційні аудиторії" Margin="5" />
+                    <CheckBox Name="mLecRooms" IsThreeState="False" IsChecked="True" Content="Лекційні аудиторії" Margin="5" />
 
                     <CheckBox Name="mCompRooms" IsThreeState="False" IsChecked="False" Content="Комп'ютерні аудиторії" Margin="5" />
 
                     <Label Width="200" HorizontalAlignment="Left" Content="Аудиторії корпусу"/>
-                    <TextBox TextChanged="mBuilding_TextChanged" Name="mBuilding" Width="200" HorizontalAlignment="Left" />
+                    <TextBox Name="mBuilding" Width="200" HorizontalAlignment="Left" />
 
                     <Label Width="200" HorizontalAlignment="Left" Content="Номер аудиторії"/>
                     <TextBox TextChanged="mRoom_TextChanged" Name="mRoom" Width="200" HorizontalAlignment="Left" />

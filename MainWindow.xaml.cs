@@ -81,7 +81,7 @@ namespace DBProject
 
         private void mSubmit_Click(object sender, RoutedEventArgs e)
         {
-            bool mAR = mAllRooms.IsChecked ?? false;
+            bool mNCR = mLecRooms.IsChecked ?? false;
             bool mCR = mCompRooms.IsChecked ?? false;
             string mBld = mBuilding.Text;
             string mR = mRoom.Text;
@@ -96,15 +96,19 @@ namespace DBProject
                     if (mR != "")
                     {
                         conditions += "AND Розклад.Аудиторія = '" + mR + "' ";
-                    }
-                    else if (mBld != "")
+                    } else if (mBld != "")
                     {
                         conditions += "AND Аудиторії.Корпус = '" + mBld + "' ";
                     }
-                    if (mCR)
+
+                    if (mCR && !mNCR)
                     {
                         conditions += "AND Аудиторії.Компютерний_клас = 1 ";
+                    } else if (mNCR && !mCR)
+                    {
+                        conditions += "AND Аудиторії.Компютерний_клас = 0 ";
                     }
+
                     Console.WriteLine(conditions);
 
                     List<String[]> data = access.Select("Методист2", conditions, 7);
@@ -125,19 +129,29 @@ namespace DBProject
                     else if (mBld != "")
                     {
                         conditions += "Аудиторії.Корпус = '" + mBld + "' ";
-                        if (mCR)
+                        if (mCR && !mNCR)
                         {
                             conditions += "AND Аудиторії.Компютерний_клас = 1 ";
                         }
+                        else if (mNCR && !mCR)
+                        {
+                            conditions += "AND Аудиторії.Компютерний_клас = 0 ";
+                        }
                     }
-                    else if (mCR)
+                    else if (mCR && !mNCR)
                     {
                         conditions += "Аудиторії.Компютерний_клас = 1 ";
                     }
-                    if(conditions == "WHERE ")
+                    else if (mNCR && !mCR)
+                    {
+                        conditions += "Аудиторії.Компютерний_клас = 0 ";
+                    }
+
+                    if (conditions == "WHERE ")
                     {
                         conditions = "";
                     }
+
                     Console.WriteLine(conditions);
                     List<String[]> data = access.Select("Методист1", conditions, 6);
 
@@ -231,14 +245,9 @@ namespace DBProject
             }
         }
 
-        private void mBuilding_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            mAllRooms.IsChecked = false;
-        }
-
         private void mRoom_TextChanged(object sender, TextChangedEventArgs e)
         {
-            mAllRooms.IsChecked = false;
+            mLecRooms.IsChecked = false;
             mCompRooms.IsChecked = false;
             mBuilding.Text = "";
         }
@@ -279,9 +288,9 @@ namespace DBProject
                 {
                     conditions += "AND Розклад.Група ='" + group + "'";
                 }
-                List<String[]> data = access.Select("Предмет", conditions, 8);
+                List<String[]> data = access.Select("Предмет", conditions, 7);
 
-                String[] header = { "", "Час", "Аудиторія", "Викладач", "Предмет", "Тип", "Група", "Тижні" };
+                String[] header = { "", "Час", "Аудиторія", "Викладач", "Тип", "Група", "Тижні" };
                 writer.WriteHeader(header);
                 writer.WriteDataTeacher(data);
                 writer.Save();

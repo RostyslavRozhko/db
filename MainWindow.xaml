@@ -18,7 +18,7 @@
         <TabControl Margin="0,20,0,0">
             <TabItem Header="Методист">
                 <StackPanel>
-                    <CheckBox Name="mAllRooms" IsThreeState="False" IsChecked="True" Content="Всі аудиторії" Margin="5" />
+                    <CheckBox Name="mAllRooms" IsThreeState="False" IsChecked="True" Content="Лекційні аудиторії" Margin="5" />
 
                     <CheckBox Name="mCompRooms" IsThreeState="False" IsChecked="False" Content="Комп'ютерні аудиторії" Margin="5" />
 
@@ -49,7 +49,7 @@
                     <Button Name="tSubmit" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30" Click="tSubmit_Click">Застосувати</Button>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Студент">
+            <TabItem Header="Спеціальність">
                 <StackPanel>
                     <Label Width="200" HorizontalAlignment="Left" Content="Спеціальність"/>
                     <TextBox Name="sSpecial" Width="200" HorizontalAlignment="Left" />
@@ -63,6 +63,25 @@
                     <TextBox TextChanged="sWeek_TextChanged" Name="sWeek" Width="200" HorizontalAlignment="Left" />
 
                     <Button Name="sSubmit" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30" Click="sSubmit_Click">Застосувати</Button>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Предмет">
+                <StackPanel>
+                    <Label Width="200" HorizontalAlignment="Left" Content="Спеціальність"/>
+                    <TextBox Name="pSpecial" Width="200" HorizontalAlignment="Left" />
+
+                    <Label Width="200" HorizontalAlignment="Left" Content="Курс"/>
+                    <TextBox Name="pYear" Width="200" HorizontalAlignment="Left" />
+
+                    <Label Width="200" HorizontalAlignment="Left" Content="Предмет"/>
+                    <TextBox Name="pSubj" Width="200" HorizontalAlignment="Left" />
+
+                    <CheckBox Name="pAllGroups" IsThreeState="False" IsChecked="True" Content="Всі групи" Margin="5" />
+
+                    <Label Width="200" HorizontalAlignment="Left" Content="Група"/>
+                    <TextBox TextChanged="pGroup_TextChanged" Name="pGroup" Width="200" HorizontalAlignment="Left" />
+
+                    <Button Name="pSubmit" Click="pSubmit_Click" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30">Застосувати</Button>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Помилки">

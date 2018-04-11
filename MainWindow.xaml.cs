@@ -257,5 +257,40 @@ namespace DBProject
         {
             sAllWeeks.IsChecked = false;
         }
+
+        private void pGroup_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            pAllGroups.IsChecked = false;
+        }
+
+        private void pSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            string speciality = pSpecial.Text;
+            string year = pYear.Text;
+            string subject = pSubj.Text;
+            bool allGroups = pAllGroups.IsChecked ?? false;
+            string group = pGroup.Text;
+
+            try
+            {
+                ExcelWriter writer = new ExcelWriter();
+                String conditions = "WHERE Розклад.Спеціальність = '" + speciality + "' AND Розклад.Рік_навчання = " + year + " AND Розклад.Предмет = '" + subject + "'";
+                if (allGroups == false)
+                {
+                    conditions += "AND Розклад.Група ='" + group + "'";
+                }
+                List<String[]> data = access.Select("Предмет", conditions, 8);
+
+                String[] header = { "", "Час", "Аудиторія", "Викладач", "Предмет", "Тип", "Група", "Тижні" };
+                writer.WriteHeader(header);
+                writer.WriteDataTeacher(data);
+                writer.Save();
+                writer.Close();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+        }
     }
 }

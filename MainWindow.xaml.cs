@@ -111,7 +111,7 @@ namespace DBProject
 
                     Console.WriteLine(conditions);
 
-                    List<String[]> data = access.Select("Методист2", conditions, 7);
+                    List<String[]> data = access.Select("Методист2", conditions, 6);
                     writer.WriteDataMeth(data, 3);
                     writer.Save();
                     writer.Close();
@@ -122,7 +122,7 @@ namespace DBProject
                     String conditions = "WHERE ";
                     if (mR != "")
                     {
-                        conditions += "Розклад.Аудиторія = '" + mR + "' ";
+                        conditions += "Суб.Номер_аудиторії = '" + mR + "' ";
                     }
                     else if (mBld != "")
                     {
@@ -151,7 +151,7 @@ namespace DBProject
                     }
 
                     Console.WriteLine(conditions);
-                    List<String[]> data = access.Select("Методист1", conditions, 6);
+                    List<String[]> data = access.Select("Методист1", conditions, 5);
 
                     writer.WriteDataMeth(data, 2);
                     writer.Save();

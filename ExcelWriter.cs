@@ -165,9 +165,12 @@ namespace DBProject
             int rows = data.Count + 1;
             int cols = data[0].Length;
 
-            //Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 4], Worksheet.Cells[rows, cols]];
-            //table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
-            //table.NumberFormat = "@";
+            Console.WriteLine(rows);
+
+
+            Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[rows/5, 2+subCols*6]];
+            table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+            table.NumberFormat = "@";
 
             String prevDay = "";
             int prevDayPos = -1;
@@ -178,7 +181,7 @@ namespace DBProject
             String prevRoom = "";
             int prevRoomPos = -1;
 
-            int dayCol = 0;
+            int dayCol = 3-subCols;
 
             int rowww = 2;
 
@@ -186,15 +189,16 @@ namespace DBProject
             {
                 if (values[0] == prevDay)
                 {
-                    //Worksheet.Cells[1, dayCol] = "";
-                    //Worksheet.Range[Worksheet.Cells[prevTimePos, 1], Worksheet.Cells[2, dayCol]].Merge();
+                    //Worksheet.Range[Worksheet.Cells[1, dayCol], Worksheet.Cells[1, dayCol+subCols]].Merge();
                 }
                 else
                 {
-                    dayCol += 2;
+                    dayCol += subCols;
                     Worksheet.Cells[1, dayCol] = values[0];
                     rowww = 2;
                 }
+
+                Worksheet.Cells[rowww, 1] = values[1];
 
                 /*if (values[1] == prevTime)
                 {
@@ -208,22 +212,47 @@ namespace DBProject
                 }
                 */
 
-
-                Worksheet.Cells[rowww, 2] = values[2];
-
-                int counter = 0;
-                for (int i = 3; i < cols; i++)
+                if (values[2] == prevRoom)
                 {
-                    Console.WriteLine(rowww + " " + (dayCol + counter) + " " + values[i]);
-                    Worksheet.Cells[rowww, dayCol + counter] = values[i];
-                    counter++;
+                    Worksheet.Cells[rowww, dayCol+1] = (string)(Worksheet.Cells[rowww, dayCol+1] as Excel.Range).Value + "/ \n\r " + values[4];
+                    Worksheet.Cells[rowww, dayCol] = (string)(Worksheet.Cells[rowww, dayCol] as Excel.Range).Value + "/ \n\r " + values[3];
                 }
-                counter = 0;
+                else
+                {
+                    prevRoomPos = rowww;
+                    Worksheet.Cells[rowww, 2] = values[2];
 
-                prevDay = values[0];
-                prevTime = values[1];
-                //prevRoom = values[2];
-                rowww++;
+                    int counter = 0;
+                    for (int i = 3; i < cols; i++)
+                    {
+                        Worksheet.Cells[rowww, dayCol + counter] = values[i];
+                        counter++;
+                    }
+                    counter = 0;
+
+                    prevDay = values[0];
+                    prevTime = values[1];
+                    prevRoom = values[2];
+                    rowww++;
+                }
+            }
+            setStylesMeth(rows / 5, 2 + subCols * 6);
+        }
+
+        private void setStylesMeth(int rows, int cols)
+        {
+            Worksheet.Columns.Font.Name = "Times New Roman";
+            Worksheet.Columns.Font.Size = 12;
+            Worksheet.Columns.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+            for(int i = 1; i <= cols; i++)
+            {
+                Excel.Range col = Worksheet.Range[Worksheet.Cells[1, i], Worksheet.Cells[rows, i]];
+                col.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                col.WrapText = true;
+                col.ColumnWidth = 12;
+                col.VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
+                col.Columns.AutoFit();
             }
         }
 

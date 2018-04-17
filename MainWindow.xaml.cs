@@ -191,7 +191,7 @@ namespace DBProject
 
         private void tSubmit_Click(object sender, RoutedEventArgs e)
         {
-            string tLN = tLastname.Text;
+            string tLN = tLastname.Text.Replace("'", "’");
             bool tAW = tAllWeeks.IsChecked ?? false;
             string tW = tWeek.Text;
             try

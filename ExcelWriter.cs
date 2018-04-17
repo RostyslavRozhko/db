@@ -169,11 +169,10 @@ namespace DBProject
 
 
             Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[rows/5, 2+subCols*6]];
-            table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
             table.NumberFormat = "@";
 
             String prevDay = "";
-            String prevSub = "";
+            String prevTime = "";
             String prevRoom = "";
             int prevRoomPos = -1;
 
@@ -196,7 +195,7 @@ namespace DBProject
 
                 Worksheet.Cells[rowww, 1] = values[1];
 
-                if (values[2] == prevRoom && values[3] == prevSub)
+                if (values[2] == prevRoom && prevTime == values[1])
                 {
                     Worksheet.Cells[rowww, dayCol+1] = (string)(Worksheet.Cells[rowww, dayCol+1] as Excel.Range).Value + "/ \n\r " + values[4];
                     Worksheet.Cells[rowww, dayCol] = (string)(Worksheet.Cells[rowww, dayCol] as Excel.Range).Value + "/ \n\r " + values[3];
@@ -216,37 +215,12 @@ namespace DBProject
 
                     prevDay = values[0];
                     prevRoom = values[2];
-                    prevSub = values[3];
+                    prevTime = values[1];
                     rowww++;
                 }
             }
-            // mergeTime(row/5);
-            setStylesMeth(rows / 4, 2 + subCols * 6);
+            setStylesMeth(rowww-1, 2 + subCols * 6);
         }
-/*
-        private void mergeTime(int rows)
-        {
-            String prevTime = "";
-            int prevTimePos = -1;
-
-            for (int i = row; i < rows; i++)
-            {
-                Console.WriteLine(i);
-                string cellValue = (string)(Worksheet.Cells[i, 1] as Excel.Range).Value;
-                Console.WriteLine(cellValue);
-                if (cellValue == prevTime)
-                {
-                    Worksheet.Cells[i, 1] = "";
-                    Worksheet.Range[Worksheet.Cells[prevTimePos, 1], Worksheet.Cells[i, 1]].Merge();
-                }
-                else
-                {
-                    prevTimePos = i;
-                    Worksheet.Cells[i, 1] = cellValue;
-                }
-            }
-        }
-    */
 
         private void setStylesMeth(int rows, int cols)
         {
@@ -254,7 +228,11 @@ namespace DBProject
             Worksheet.Columns.Font.Size = 9;
             Worksheet.Columns.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
-            for(int i = 1; i <= cols; i++)
+
+            Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[rows, cols]];
+            table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+
+            for (int i = 1; i <= cols; i++)
             {
                 Excel.Range col = Worksheet.Range[Worksheet.Cells[1, i], Worksheet.Cells[rows, i]];
                 col.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
@@ -300,6 +278,12 @@ namespace DBProject
 
             Excel.Range spec = Worksheet.Range[Worksheet.Cells[2, 6], Worksheet.Cells[rows, 6]];
             spec.Columns.AutoFit();
+
+            Excel.Range group = Worksheet.Range[Worksheet.Cells[1, 7], Worksheet.Cells[rows, 7]];
+            group.Columns.AutoFit();
+
+            Excel.Range week = Worksheet.Range[Worksheet.Cells[2, 8], Worksheet.Cells[rows, 8]];
+            week.Columns.AutoFit();
         }
 
         public void Save()

@@ -66,27 +66,6 @@
                     <Button Name="sSubmit" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30" Click="sSubmit_Click">Застосувати</Button>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Предмет">
-                <StackPanel>
-                    <Label Width="200" HorizontalAlignment="Left" Content="Спеціальність"/>
-                    <ComboBox Name="pSpecial" Width="200" HorizontalAlignment="Left">
-                    </ComboBox>
-
-                    <Label Width="200" HorizontalAlignment="Left" Content="Курс"/>
-                    <ComboBox Name="pYear" Width="200" HorizontalAlignment="Left">
-                    </ComboBox>
-
-                    <Label Width="200" HorizontalAlignment="Left" Content="Предмет"/>
-                    <TextBox Name="pSubj" Width="200" HorizontalAlignment="Left" />
-
-                    <CheckBox Name="pAllGroups" IsThreeState="False" IsChecked="True" Content="Всі групи" Margin="5" />
-
-                    <Label Width="200" HorizontalAlignment="Left" Content="Група"/>
-                    <TextBox TextChanged="pGroup_TextChanged" Name="pGroup" Width="200" HorizontalAlignment="Left" />
-
-                    <Button Name="pSubmit" Click="pSubmit_Click" Width="200" Margin="0 5" HorizontalAlignment="Left" Height="30">Застосувати</Button>
-                </StackPanel>
-            </TabItem>
             <TabItem Header="Помилки">
                 <StackPanel>
                     

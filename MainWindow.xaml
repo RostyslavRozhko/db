@@ -68,7 +68,11 @@
             </TabItem>
             <TabItem Header="Помилки">
                 <StackPanel>
-                    
+                    <TextBox Name="errors" 
+                         Height="400"
+                         ScrollViewer.VerticalScrollBarVisibility="Visible"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    </TextBox>
                 </StackPanel>
             </TabItem>
         </TabControl>

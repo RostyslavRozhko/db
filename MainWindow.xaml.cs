@@ -36,8 +36,7 @@ namespace DBProject
                 sSpecial.Items.Insert(c, spec);
             }
 
-            Console.WriteLine(access.getErrors("Цілісність2"));
-           
+            errors.Text = access.getErrors("Цілісність1") + access.getErrors("Цілісність2");
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
@@ -70,6 +69,7 @@ namespace DBProject
                     access.insertWeeks(parser.getWeeks());
 
                     MessageBox.Show("Успішно імпортовано. Перевірте вкладку 'Помилки', щоб переконатися, що в розкладі немає накладок.", "Готово");
+                    errors.Text = access.getErrors("Цілісність1") + access.getErrors("Цілісність2");
                     return true;
                 }
                 catch (Exception ex)

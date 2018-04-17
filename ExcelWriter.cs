@@ -169,15 +169,10 @@ namespace DBProject
 
 
             Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[rows/5, 2+subCols*6]];
-            table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
             table.NumberFormat = "@";
 
             String prevDay = "";
-            int prevDayPos = -1;
-
             String prevTime = "";
-            int prevTimePos = -1;
-
             String prevRoom = "";
             int prevRoomPos = -1;
 
@@ -200,19 +195,7 @@ namespace DBProject
 
                 Worksheet.Cells[rowww, 1] = values[1];
 
-                /*if (values[1] == prevTime)
-                {
-                    Worksheet.Cells[rowww, 1] = "";
-                    Worksheet.Range[Worksheet.Cells[prevTimePos, 1], Worksheet.Cells[rowww, 1]].Merge();
-                }
-                else
-                {
-                    prevTimePos = rowww;
-                    Worksheet.Cells[rowww, 1] = values[1];
-                }
-                */
-
-                if (values[2] == prevRoom)
+                if (values[2] == prevRoom && prevTime == values[1])
                 {
                     Worksheet.Cells[rowww, dayCol+1] = (string)(Worksheet.Cells[rowww, dayCol+1] as Excel.Range).Value + "/ \n\r " + values[4];
                     Worksheet.Cells[rowww, dayCol] = (string)(Worksheet.Cells[rowww, dayCol] as Excel.Range).Value + "/ \n\r " + values[3];
@@ -231,26 +214,30 @@ namespace DBProject
                     counter = 0;
 
                     prevDay = values[0];
-                    prevTime = values[1];
                     prevRoom = values[2];
+                    prevTime = values[1];
                     rowww++;
                 }
             }
-            setStylesMeth(rows / 5, 2 + subCols * 6);
+            setStylesMeth(rowww-1, 2 + subCols * 6);
         }
 
         private void setStylesMeth(int rows, int cols)
         {
             Worksheet.Columns.Font.Name = "Times New Roman";
-            Worksheet.Columns.Font.Size = 12;
+            Worksheet.Columns.Font.Size = 9;
             Worksheet.Columns.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
-            for(int i = 1; i <= cols; i++)
+
+            Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[rows, cols]];
+            table.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+
+            for (int i = 1; i <= cols; i++)
             {
                 Excel.Range col = Worksheet.Range[Worksheet.Cells[1, i], Worksheet.Cells[rows, i]];
                 col.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
                 col.WrapText = true;
-                col.ColumnWidth = 12;
+                col.ColumnWidth = 9;
                 col.VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
                 col.Columns.AutoFit();
             }
@@ -291,6 +278,15 @@ namespace DBProject
 
             Excel.Range spec = Worksheet.Range[Worksheet.Cells[2, 6], Worksheet.Cells[rows, 6]];
             spec.Columns.AutoFit();
+
+            Excel.Range group = Worksheet.Range[Worksheet.Cells[1, 7], Worksheet.Cells[rows, 7]];
+            group.Columns.AutoFit();
+
+            Excel.Range week = Worksheet.Range[Worksheet.Cells[2, 8], Worksheet.Cells[rows, 8]];
+            week.Columns.AutoFit();
+
+            Excel.Range col = Worksheet.Range[Worksheet.Cells[2, 9], Worksheet.Cells[rows, 9]];
+            col.Columns.AutoFit();
         }
 
         public void Save()

@@ -53,20 +53,29 @@ namespace DBProject
             return list.ToArray<String>();
         }
 
+        public String getErrors(String queryName)
+        {
+            String query = Queries[queryName];
+            String result = "";
+            OleDbCommand cmd = new OleDbCommand(query, Connection);
+            OleDbDataReader RS = cmd.ExecuteReader();
+
+            while (RS.Read())
+            {
+                result += RS[0].ToString() + "\r\n";
+            }
+
+            return result;
+
+        }
+
         public List<String[]> Select(String queryName, String conditions, int fieldsCount, String weekNum = "")
         {
             List<String[]> result = new List<String[]>();
-            foreach (var item in Queries)
-            {
-                Console.WriteLine(item.Key + " " + item.Value);
-            }
 
             String query = Queries[queryName];
             
             String sql = query.Replace("$", conditions).Replace("#", weekNum);
-
-
-            Console.WriteLine(sql);
 
             OleDbCommand cmd = new OleDbCommand(sql, Connection);
             OleDbDataReader RS = cmd.ExecuteReader();

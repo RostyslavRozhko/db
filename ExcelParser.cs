@@ -96,7 +96,7 @@ namespace DBProject
                         Teacher teacher = Teachers.Find(x => x.Name == teacherName);
                         if (teacher == null)
                         {
-                            Teacher newTeacher = new Teacher(teacherName);
+                            Teacher newTeacher = new Teacher(teacherName.Replace("'", "’"));
                             Teachers.Add(newTeacher);
                             teacherId = newTeacher.Id.ToString();
                         }
@@ -124,7 +124,7 @@ namespace DBProject
                                 Speciality,
                                 DayOfWeek.ToString(),
                                 Time.ToString(),
-                                System.Security.SecurityElement.Escape(Values.GetValue(1, 3).ToString()),
+                                Values.GetValue(1, 3).ToString().Replace("'", "’"),
                                 teacherId,
                                 groupId,
                                 room,
@@ -168,7 +168,8 @@ namespace DBProject
 
         public String getFaculty()
         {
-            return (String)(Worksheet.Cells[6, 1] as Excel.Range).Value;
+            String faculty = (String)(Worksheet.Cells[6, 1] as Excel.Range).Value;
+            return faculty.Replace("'", "’");
         }
 
         public String getSpeciality()

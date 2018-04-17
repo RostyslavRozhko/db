@@ -36,7 +36,6 @@ namespace DBProject
                 sSpecial.Items.Insert(c, spec);
             }
 
-            errors.Text = access.getErrors("Цілісність1") + access.getErrors("Цілісність2");
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)

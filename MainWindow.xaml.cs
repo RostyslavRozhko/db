@@ -34,11 +34,6 @@ namespace DBProject
             foreach (String spec in specs)
             {
                 sSpecial.Items.Insert(c, spec);
-                pSpecial.Items.Insert(c++, spec);
-            }
-            for(int i = 1; i <= 6; i++)
-            {
-                pYear.Items.Insert(i-1, i);
             }
            
         }
@@ -292,41 +287,6 @@ namespace DBProject
         private void sWeek_TextChanged(object sender, TextChangedEventArgs e)
         {
             sAllWeeks.IsChecked = false;
-        }
-
-        private void pGroup_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            pAllGroups.IsChecked = false;
-        }
-
-        private void pSubmit_Click(object sender, RoutedEventArgs e)
-        {
-            string speciality = pSpecial.SelectedItem.ToString();
-            string year = pYear.SelectedItem.ToString();
-            string subject = pSubj.Text;
-            bool allGroups = pAllGroups.IsChecked ?? false;
-            string group = pGroup.Text;
-
-            try
-            {
-                ExcelWriter writer = new ExcelWriter();
-                String conditions = "WHERE Розклад.Спеціальність = '" + speciality + "' AND Розклад.Рік_навчання = " + year + " AND Розклад.Предмет = '" + subject + "'";
-                if (allGroups == false)
-                {
-                    conditions += "AND Розклад.Група ='" + group + "'";
-                }
-                List<String[]> data = access.Select("Предмет", conditions, 7);
-
-                String[] header = { "", "Час", "Аудиторія", "Викладач", "Тип", "Група", "Тижні" };
-                writer.WriteHeader(header);
-                writer.WriteDataTeacher(data);
-                writer.Save();
-                writer.Close();
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message);
-            }
         }
     }
 }

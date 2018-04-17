@@ -67,7 +67,7 @@ namespace DBProject
                     Worksheet.Cells[row, 1] = values[0];
                 }
 
-                if (values[1] == prevTime)
+                if (values[1] == prevTime && values[0] == prevDay)
                 {
                     Worksheet.Cells[row, 2] = "";
                     Worksheet.Range[Worksheet.Cells[prevTimePos, 2], Worksheet.Cells[row, 2]].Merge();
@@ -135,7 +135,7 @@ namespace DBProject
                     Worksheet.Cells[row, 1] = values[0];
                 }
 
-                if (values[1] == prevTime)
+                if (values[1] == prevTime  && values[0] == prevDay)
                 {
                     Worksheet.Cells[row, 2] = "";
                     Worksheet.Range[Worksheet.Cells[prevTimePos, 2], Worksheet.Cells[row, 2]].Merge();
@@ -282,10 +282,10 @@ namespace DBProject
             Excel.Range group = Worksheet.Range[Worksheet.Cells[1, 7], Worksheet.Cells[rows, 7]];
             group.Columns.AutoFit();
 
-            Excel.Range week = Worksheet.Range[Worksheet.Cells[2, 8], Worksheet.Cells[rows, 8]];
+            Excel.Range week = Worksheet.Range[Worksheet.Cells[1, 8], Worksheet.Cells[rows, 8]];
             week.Columns.AutoFit();
 
-            Excel.Range col = Worksheet.Range[Worksheet.Cells[2, 9], Worksheet.Cells[rows, 9]];
+            Excel.Range col = Worksheet.Range[Worksheet.Cells[1, 9], Worksheet.Cells[rows, 9]];
             col.Columns.AutoFit();
         }
 

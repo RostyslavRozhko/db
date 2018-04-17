@@ -39,12 +39,34 @@ namespace DBProject
             RS.Close();
         }
 
-        public List<String[]> Select(String queryName, String conditions, int fieldsCount)
+        public String[] GetSpecs()
+        {
+            List<String> list = new List<String>(); 
+
+            OleDbCommand cmd = new OleDbCommand("SELECT Distinct Спеціальність FROM Розклад", Connection);
+            OleDbDataReader RS = cmd.ExecuteReader();
+            while (RS.Read())
+            {
+                list.Add(RS[0].ToString());
+            }
+            RS.Close();
+            return list.ToArray<String>();
+        }
+
+        public List<String[]> Select(String queryName, String conditions, int fieldsCount, String weekNum = "")
         {
             List<String[]> result = new List<String[]>();
+            foreach (var item in Queries)
+            {
+                Console.WriteLine(item.Key + " " + item.Value);
+            }
 
             String query = Queries[queryName];
-            String sql = query.Replace("$", conditions);
+            
+            String sql = query.Replace("$", conditions).Replace("#", weekNum);
+
+
+            Console.WriteLine(sql);
 
             OleDbCommand cmd = new OleDbCommand(sql, Connection);
             OleDbDataReader RS = cmd.ExecuteReader();

@@ -20,7 +20,7 @@
                 <StackPanel>
                     <CheckBox Name="mLecRooms" IsThreeState="False" IsChecked="True" Content="Лекційні аудиторії" Margin="5" />
 
-                    <CheckBox Name="mCompRooms" IsThreeState="False" IsChecked="False" Content="Комп'ютерні аудиторії" Margin="5" />
+                    <CheckBox Name="mCompRooms" IsThreeState="False" IsChecked="True" Content="Комп'ютерні аудиторії" Margin="5" />
 
                     <Label Width="200" HorizontalAlignment="Left" Content="Аудиторії корпусу"/>
                     <TextBox Name="mBuilding" Width="200" HorizontalAlignment="Left" />
@@ -52,7 +52,8 @@
             <TabItem Header="Спеціальність">
                 <StackPanel>
                     <Label Width="200" HorizontalAlignment="Left" Content="Спеціальність"/>
-                    <TextBox Name="sSpecial" Width="200" HorizontalAlignment="Left" />
+                    <ComboBox Name="sSpecial" Width="200" HorizontalAlignment="Left">
+                    </ComboBox>
 
                     <Label Width="200" HorizontalAlignment="Left" Content="Курс"/>
                     <TextBox Name="sYear" Width="200" HorizontalAlignment="Left" />
@@ -68,10 +69,12 @@
             <TabItem Header="Предмет">
                 <StackPanel>
                     <Label Width="200" HorizontalAlignment="Left" Content="Спеціальність"/>
-                    <TextBox Name="pSpecial" Width="200" HorizontalAlignment="Left" />
+                    <ComboBox Name="pSpecial" Width="200" HorizontalAlignment="Left">
+                    </ComboBox>
 
                     <Label Width="200" HorizontalAlignment="Left" Content="Курс"/>
-                    <TextBox Name="pYear" Width="200" HorizontalAlignment="Left" />
+                    <ComboBox Name="pYear" Width="200" HorizontalAlignment="Left">
+                    </ComboBox>
 
                     <Label Width="200" HorizontalAlignment="Left" Content="Предмет"/>
                     <TextBox Name="pSubj" Width="200" HorizontalAlignment="Left" />

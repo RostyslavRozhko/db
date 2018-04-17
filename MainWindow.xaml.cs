@@ -23,11 +23,24 @@ namespace DBProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static Access access = new Access();
+        private static Access access;
 
         public MainWindow()
         {
             InitializeComponent();
+            access = new Access();
+            String[] specs = access.GetSpecs();
+            int c = 0;
+            foreach (String spec in specs)
+            {
+                sSpecial.Items.Insert(c, spec);
+                pSpecial.Items.Insert(c++, spec);
+            }
+            for(int i = 1; i <= 6; i++)
+            {
+                pYear.Items.Insert(i-1, i);
+            }
+           
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
@@ -92,27 +105,43 @@ namespace DBProject
                 if (!mAW)
                 {
                     ExcelWriter writer = new ExcelWriter();
-                    String conditions = "WHERE Розклад_Тижні.Номер_Тижні = " + mW + " ";
+                    String weekNum = mW;
+
+                    String conditions = "WHERE ";
                     if (mR != "")
                     {
-                        conditions += "AND Розклад.Аудиторія = '" + mR + "' ";
-                    } else if (mBld != "")
+                        conditions += "Суб.Номер_аудиторії = '" + mR + "' ";
+                    }
+                    else if (mBld != "")
                     {
-                        conditions += "AND Аудиторії.Корпус = '" + mBld + "' ";
+                        conditions += "Аудиторії.Корпус = '" + mBld + "' ";
+                        if (mCR && !mNCR)
+                        {
+                            conditions += "AND Аудиторії.Компютерний_клас = 1 ";
+                        }
+                        else if (mNCR && !mCR)
+                        {
+                            conditions += "AND Аудиторії.Компютерний_клас = 0 ";
+                        }
+                    }
+                    else if (mCR && !mNCR)
+                    {
+                        conditions += "Аудиторії.Компютерний_клас = 1 ";
+                    }
+                    else if (mNCR && !mCR)
+                    {
+                        conditions += "Аудиторії.Компютерний_клас = 0 ";
                     }
 
-                    if (mCR && !mNCR)
+                    if (conditions == "WHERE ")
                     {
-                        conditions += "AND Аудиторії.Компютерний_клас = 1 ";
-                    } else if (mNCR && !mCR)
-                    {
-                        conditions += "AND Аудиторії.Компютерний_клас = 0 ";
+                        conditions = "";
                     }
 
                     Console.WriteLine(conditions);
 
-                    List<String[]> data = access.Select("Методист2", conditions, 6);
-                    writer.WriteDataMeth(data, 3);
+                    List<String[]> data = access.Select("Методист2", conditions, 5, weekNum);
+                    writer.WriteDataMeth(data, 2);
                     writer.Save();
                     writer.Close();
                 }
@@ -171,7 +200,7 @@ namespace DBProject
             string tW = tWeek.Text;
             try
             {
-                if(!tAW)
+                if (!tAW)
                 {
                     ExcelWriter writer = new ExcelWriter();
                     String conditions = "WHERE Викладачі.Прізвище LIKE '%" + tLN + "%' AND Розклад_Тижні.Номер_Тижні = " + tW;
@@ -182,7 +211,8 @@ namespace DBProject
                     writer.WriteDataTeacher(data);
                     writer.Save();
                     writer.Close();
-                } else
+                }
+                else
                 {
                     ExcelWriter writer = new ExcelWriter();
                     String conditions = "WHERE Викладачі.Прізвище LIKE '%" + tLN + "%'";
@@ -203,10 +233,11 @@ namespace DBProject
 
         private void sSubmit_Click(object sender, RoutedEventArgs e)
         {
-            string sS = sSpecial.Text;
+            string sS = sSpecial.SelectedItem.ToString();
             string sY = sYear.Text;
             bool sAW = sAllWeeks.IsChecked ?? false;
             string sW = sWeek.Text;
+            Console.WriteLine(sS);
 
             try
             {
@@ -270,8 +301,8 @@ namespace DBProject
 
         private void pSubmit_Click(object sender, RoutedEventArgs e)
         {
-            string speciality = pSpecial.Text;
-            string year = pYear.Text;
+            string speciality = pSpecial.SelectedItem.ToString();
+            string year = pYear.SelectedItem.ToString();
             string subject = pSubj.Text;
             bool allGroups = pAllGroups.IsChecked ?? false;
             string group = pGroup.Text;

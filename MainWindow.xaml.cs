@@ -143,10 +143,11 @@ namespace DBProject
                 else
                 {
                     ExcelWriter writer = new ExcelWriter();
+
                     String conditions = "WHERE ";
                     if (mR != "")
                     {
-                        conditions += "Суб.Номер_аудиторії = '" + mR + "' ";
+                        conditions += "Аудиторії.Номер_аудиторії = '" + mR + "' ";
                     }
                     else if (mBld != "")
                     {

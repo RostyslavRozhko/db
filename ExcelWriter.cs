@@ -284,6 +284,9 @@ namespace DBProject
 
             Excel.Range week = Worksheet.Range[Worksheet.Cells[2, 8], Worksheet.Cells[rows, 8]];
             week.Columns.AutoFit();
+
+            Excel.Range col = Worksheet.Range[Worksheet.Cells[2, 9], Worksheet.Cells[rows, 9]];
+            col.Columns.AutoFit();
         }
 
         public void Save()

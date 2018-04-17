@@ -35,6 +35,8 @@ namespace DBProject
             {
                 sSpecial.Items.Insert(c, spec);
             }
+
+            Console.WriteLine(access.getErrors("Цілісність2"));
            
         }
 

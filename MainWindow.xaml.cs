@@ -113,7 +113,7 @@ namespace DBProject
                         conditions += "Аудиторії.Корпус = '" + mBld + "' ";
                         if (mCR && !mNCR)
                         {
-                            conditions += "AND Аудиторії.Компютерний_клас = 1 ";
+                            conditions += "AND Аудиторії.Компютерний_клас = -1 ";
                         }
                         else if (mNCR && !mCR)
                         {
@@ -155,7 +155,7 @@ namespace DBProject
                         conditions += "Аудиторії.Корпус = '" + mBld + "' ";
                         if (mCR && !mNCR)
                         {
-                            conditions += "AND Аудиторії.Компютерний_клас = 1 ";
+                            conditions += "AND Аудиторії.Компютерний_клас = -1 ";
                         }
                         else if (mNCR && !mCR)
                         {
@@ -164,7 +164,7 @@ namespace DBProject
                     }
                     else if (mCR && !mNCR)
                     {
-                        conditions += "Аудиторії.Компютерний_клас = 1 ";
+                        conditions += "Аудиторії.Компютерний_клас = -1 ";
                     }
                     else if (mNCR && !mCR)
                     {

@@ -165,61 +165,56 @@ namespace DBProject
             int rows = data.Count + 1;
             int cols = data[0].Length;
 
-            Console.WriteLine(rows);
-
-
-            Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[rows/5, 2+subCols*6]];
+            Excel.Range table = Worksheet.Range[Worksheet.Cells[1, 1], Worksheet.Cells[rows / 5, 2 + subCols * 6]];
             table.NumberFormat = "@";
 
             String prevDay = "";
             String prevTime = "";
             String prevRoom = "";
-            int prevRoomPos = -1;
 
-            int dayCol = 3-subCols;
+            int dayCol = 3 - subCols;
 
-            int rowww = 2;
+            int row = 2;
 
             foreach (String[] values in data)
             {
-                if (values[0] == prevDay)
-                {
-                    //Worksheet.Range[Worksheet.Cells[1, dayCol], Worksheet.Cells[1, dayCol+subCols]].Merge();
-                }
-                else
+                if (values[0] != prevDay)
                 {
                     dayCol += subCols;
                     Worksheet.Cells[1, dayCol] = values[0];
-                    rowww = 2;
+                    row = 2;
                 }
 
-                Worksheet.Cells[rowww, 1] = values[1];
+                Worksheet.Cells[row, 1] = values[1];
+                Worksheet.Cells[row, 2] = values[2];
 
-                if (values[2] == prevRoom && prevTime == values[1])
+                if (values[0] == prevDay
+                    && values[1] == prevTime
+                    && values[2] == prevRoom)
                 {
-                    Worksheet.Cells[rowww, dayCol+1] = (string)(Worksheet.Cells[rowww, dayCol+1] as Excel.Range).Value + "/ \n\r " + values[4];
-                    Worksheet.Cells[rowww, dayCol] = (string)(Worksheet.Cells[rowww, dayCol] as Excel.Range).Value + "/ \n\r " + values[3];
-                }
-                else
-                {
-                    prevRoomPos = rowww;
-                    Worksheet.Cells[rowww, 2] = values[2];
-
-                    int counter = 0;
-                    for (int i = 3; i < cols; i++)
+                    for (int i = 3, counter = 0; i < cols; i++)
                     {
-                        Worksheet.Cells[rowww, dayCol + counter] = values[i];
+                        Worksheet.Cells[row - 1, dayCol + counter] =
+                            (string)(Worksheet.Cells[row - 1 , dayCol + counter] as Excel.Range).Value  
+                            + " / " 
+                            + values[i];
                         counter++;
                     }
-                    counter = 0;
+                } else
+                {
+                    for (int i = 3, counter = 0; i < cols; i++)
+                    {
+                        Worksheet.Cells[row, dayCol + counter] = values[i];
+                        counter++;
+                    }
 
                     prevDay = values[0];
-                    prevRoom = values[2];
                     prevTime = values[1];
-                    rowww++;
+                    prevRoom = values[2];
+                    row++;
                 }
             }
-            setStylesMeth(rowww-1, 2 + subCols * 6);
+            setStylesMeth(row - 1, 2 + subCols * 6);
         }
 
         private void setStylesMeth(int rows, int cols)
